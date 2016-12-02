@@ -8,9 +8,6 @@ package com.controller;
 import com.dal.UserContext;
 import com.entities.User;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +31,8 @@ public class checkRegister extends HttpServlet {
     */
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
+      response.setCharacterEncoding("UTF-8");
+      request.setCharacterEncoding("UTF-8");
       String btnSubmit = request.getParameter("btnSubmit");
       String firstName = request.getParameter("firstName");
       String lastName = request.getParameter("lastName");
@@ -50,7 +49,8 @@ public class checkRegister extends HttpServlet {
          user.setPassword(password);
          user.setEmail(email);
          try {
-            new UserContext().addUser(user);
+            UserContext uc=new UserContext();
+            uc.addUser(user);
             session.setAttribute("login", user);
             response.sendRedirect("index.jsp");
          } catch (Exception ex) {

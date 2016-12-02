@@ -19,7 +19,7 @@ public class DBContext {
     */
    public DBContext() throws Exception {
       Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-      String url = "jdbc:sqlserver://localhost:1433;databaseName=BFTSys";
+      String url = "jdbc:sqlserver://localhost:1433;databaseName=BFTSystem";
       connection = DriverManager.getConnection(url, "sa", "12345678");
    }
 

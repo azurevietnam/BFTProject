@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>BookingController</servlet-name>
+        <servlet-class>com.controller.BookingController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FlightController</servlet-name>
+        <servlet-class>com.controller.FlightController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginController</servlet-name>
+        <servlet-class>com.controller.LoginController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>checkRegister</servlet-name>
+        <servlet-class>com.controller.checkRegister</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BookingController</servlet-name>
+        <url-pattern>/BookingController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FlightController</servlet-name>
+        <url-pattern>/FlightController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/LoginController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>checkRegister</servlet-name>
+        <url-pattern>/checkRegister</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>

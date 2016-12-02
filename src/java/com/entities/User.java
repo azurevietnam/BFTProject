@@ -13,100 +13,91 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
 
-   private String userID, username, password, firstName, lastName, email, facebookID, facebookLink;
-   private boolean admin;
+    private String username, password, firstName, lastName, email, facebookID, facebookLink;
+    private boolean admin;
 
-   public User() {
-      username = "";
-      password = "";
-      firstName = "";
-      lastName = "";
-      email = "";
-      admin=false;
-   }
+    public User() {
+        username = "";
+        password = "";
+        firstName = "";
+        lastName = "";
+        email = "";
+        admin = false;
+    }
 
-   public User(String userID, String username, String password, String firstName, String lastName, String email, String facebookID, String facebookLink, boolean admin) {
-      this.userID = userID;
-      this.username = username;
-      this.password = password;
-      this.firstName = firstName;
-      this.lastName = lastName;
-      this.email = email;
-      this.facebookID = facebookID;
-      this.facebookLink = facebookLink;
-      this.admin = admin;
-   }
+    public User(String username, String password, String firstName, String lastName, String email, String facebookID, String facebookLink, boolean admin) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.facebookID = facebookID;
+        this.facebookLink = facebookLink;
+        this.admin = admin;
+    }
 
-   public String getUserID() {
-      return userID;
-   }
+    public String getUsername() {
+        return username;
+    }
 
-   public void setUserID(String userID) {
-      this.userID = userID;
-   }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-   public String getUsername() {
-      return username;
-   }
+    public String getPassword() {
+        return password;
+    }
 
-   public void setUsername(String username) {
-      this.username = username;
-   }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-   public String getPassword() {
-      return password;
-   }
+    public String getFirstName() {
+        return firstName;
+    }
 
-   public void setPassword(String password) {
-      this.password = password;
-   }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-   public String getFirstName() {
-      return firstName;
-   }
+    public String getLastName() {
+        return lastName;
+    }
 
-   public void setFirstName(String firstName) {
-      this.firstName = firstName;
-   }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-   public String getLastName() {
-      return lastName;
-   }
+    public String getEmail() {
+        return email;
+    }
 
-   public void setLastName(String lastName) {
-      this.lastName = lastName;
-   }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-   public String getEmail() {
-      return email;
-   }
+    public String getFacebookID() {
+        return facebookID;
+    }
 
-   public void setEmail(String email) {
-      this.email = email;
-   }
+    public void setFacebookID(String facebookID) {
+        this.facebookID = facebookID;
+    }
 
-   public String getFacebookID() {
-      return facebookID;
-   }
+    public String getFacebookLink() {
+        return facebookLink;
+    }
 
-   public void setFacebookID(String facebookID) {
-      this.facebookID = facebookID;
-   }
+    public void setFacebookLink(String facebookLink) {
+        this.facebookLink = facebookLink;
+    }
 
-   public String getFacebookLink() {
-      return facebookLink;
-   }
+    public boolean isAdmin() {
+        return admin;
+    }
 
-   public void setFacebookLink(String facebookLink) {
-      this.facebookLink = facebookLink;
-   }
-
-   public boolean isAdmin() {
-      return admin;
-   }
-
-   public void setAdmin(boolean admin) {
-      this.admin = admin;
-   }
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
 
 }

@@ -12,60 +12,61 @@ import java.sql.Date;
  *
  * @author SoN-TunG
  */
-public class Booking implements Serializable{
-   private String bookingID,passengerID,detailID;
-   private boolean bookingClosed;
-   private Date bookingDate;
+public class Booking implements Serializable {
 
-   public Booking() {
-   }
+    private String bookingID, passengerID, detailID;
+    private boolean bookingClosed;
+    private Date bookingDate;
 
-   public Booking(String bookingID, String passengerID, String detailID, boolean bookingClosed, Date bookingDate) {
-      this.bookingID = bookingID;
-      this.passengerID = passengerID;
-      this.detailID = detailID;
-      this.bookingClosed = bookingClosed;
-      this.bookingDate = bookingDate;
-   }
+    public Booking() {
+    }
 
-   public String getBookingID() {
-      return bookingID;
-   }
+    public Booking(String bookingID, String passengerID, String detailID, boolean bookingClosed, Date bookingDate) {
+        this.bookingID = bookingID;
+        this.passengerID = passengerID;
+        this.detailID = detailID;
+        this.bookingClosed = bookingClosed;
+        this.bookingDate = bookingDate;
+    }
 
-   public void setBookingID(String bookingID) {
-      this.bookingID = bookingID;
-   }
+    public String getBookingID() {
+        return bookingID;
+    }
 
-   public String getPassengerID() {
-      return passengerID;
-   }
+    public void setBookingID(String bookingID) {
+        this.bookingID = bookingID;
+    }
 
-   public void setPassengerID(String passengerID) {
-      this.passengerID = passengerID;
-   }
+    public String getPassengerID() {
+        return passengerID;
+    }
 
-   public String getDetailID() {
-      return detailID;
-   }
+    public void setPassengerID(String passengerID) {
+        this.passengerID = passengerID;
+    }
 
-   public void setDetailID(String detailID) {
-      this.detailID = detailID;
-   }
+    public String getDetailID() {
+        return detailID;
+    }
 
-   public boolean isBookingClosed() {
-      return bookingClosed;
-   }
+    public void setDetailID(String detailID) {
+        this.detailID = detailID;
+    }
 
-   public void setBookingClosed(boolean bookingClosed) {
-      this.bookingClosed = bookingClosed;
-   }
+    public boolean isBookingClosed() {
+        return bookingClosed;
+    }
 
-   public Date getBookingDate() {
-      return bookingDate;
-   }
+    public void setBookingClosed(boolean bookingClosed) {
+        this.bookingClosed = bookingClosed;
+    }
 
-   public void setBookingDate(Date bookingDate) {
-      this.bookingDate = bookingDate;
-   }
-   
+    public Date getBookingDate() {
+        return bookingDate;
+    }
+
+    public void setBookingDate(Date bookingDate) {
+        this.bookingDate = bookingDate;
+    }
+
 }

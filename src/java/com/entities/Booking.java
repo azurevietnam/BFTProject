@@ -17,16 +17,26 @@ public class Booking implements Serializable {
     private String bookingID, passengerID, detailID;
     private boolean bookingClosed;
     private Date bookingDate;
+    private int adults, children, infants, firstClassBook, businessClassBook, economyClassBook;
+    private double totalPrice;
 
     public Booking() {
     }
 
-    public Booking(String bookingID, String passengerID, String detailID, boolean bookingClosed, Date bookingDate) {
+    public Booking(String bookingID, String passengerID, String detailID, boolean bookingClosed, Date bookingDate,
+            int adults, int children, int infants, int firstClassBook, int businessClassBook, int economyClassBook, double totalPrice) {
         this.bookingID = bookingID;
         this.passengerID = passengerID;
         this.detailID = detailID;
         this.bookingClosed = bookingClosed;
         this.bookingDate = bookingDate;
+        this.adults = adults;
+        this.children = children;
+        this.infants = infants;
+        this.firstClassBook = firstClassBook;
+        this.businessClassBook = businessClassBook;
+        this.economyClassBook = economyClassBook;
+        this.totalPrice = totalPrice;
     }
 
     public String getBookingID() {
@@ -67,6 +77,62 @@ public class Booking implements Serializable {
 
     public void setBookingDate(Date bookingDate) {
         this.bookingDate = bookingDate;
+    }
+
+    public int getAdults() {
+        return adults;
+    }
+
+    public void setAdults(int adults) {
+        this.adults = adults;
+    }
+
+    public int getChildren() {
+        return children;
+    }
+
+    public void setChildren(int children) {
+        this.children = children;
+    }
+
+    public int getInfants() {
+        return infants;
+    }
+
+    public void setInfants(int infants) {
+        this.infants = infants;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public int getFirstClassBook() {
+        return firstClassBook;
+    }
+
+    public void setFirstClassBook(int firstClassBook) {
+        this.firstClassBook = firstClassBook;
+    }
+
+    public int getBusinessClassBook() {
+        return businessClassBook;
+    }
+
+    public void setBusinessClassBook(int businessClassBook) {
+        this.businessClassBook = businessClassBook;
+    }
+
+    public int getEconomyClassBook() {
+        return economyClassBook;
+    }
+
+    public void setEconomyClassBook(int economyClassBook) {
+        this.economyClassBook = economyClassBook;
     }
 
 }

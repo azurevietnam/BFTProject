@@ -30,15 +30,33 @@ public class BookingContext extends DBContext {
     }
 
     public void addBooking(Booking booking) {
-        String sql = "INSERT INTO BOOKING VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO BOOKING VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+        String checkSql = "select * from BOOKING where booking_id=?";
         try {
+            PreparedStatement psCheck = getConnection().prepareStatement(checkSql);
+            String id = "";
+            while (true) {
+                id = getPrimaryKey();
+                psCheck.setString(1, id);
+                ResultSet rs = psCheck.executeQuery();
+                if (!rs.next()) {
+                    break;
+                }
+            }
             PreparedStatement ps = getConnection().prepareStatement(sql);
-            ps.setString(1, booking.getBookingID());
+            ps.setString(1, id);
             ps.setString(2, booking.getPassengerID());
             ps.setString(3, booking.getDetailID());
             int bookingClosed = booking.isBookingClosed() == true ? 1 : 0;
             ps.setInt(4, bookingClosed);
             ps.setDate(5, booking.getBookingDate());
+            ps.setInt(6, booking.getAdults());
+            ps.setInt(7, booking.getChildren());
+            ps.setInt(8, booking.getInfants());
+            ps.setInt(9, booking.getFirstClassBook());
+            ps.setInt(10, booking.getBusinessClassBook());
+            ps.setInt(11, booking.getEconomyClassBook());
+            ps.setDouble(12, booking.getTotalPrice());
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(BookingContext.class.getName()).log(Level.SEVERE, null, ex);
@@ -51,12 +69,8 @@ public class BookingContext extends DBContext {
         try {
             ResultSet rs = getConnection().prepareStatement(sql).executeQuery();
             while (rs.next()) {
-                String booking_id = rs.getString(1);
-                String passenger_id = rs.getString(2);
-                String detail_id = rs.getString(3);
-                int booking_closed = rs.getInt(4);
-                Date booking_date = rs.getDate(5);
-                booking = new Booking(bookingID, passenger_id, detail_id, true, booking_date);
+                booking = new Booking(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4) == 1 ? true : false, rs.getDate(5),
+                        rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getInt(11), rs.getDouble(12));
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookingContext.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,7 +109,8 @@ public class BookingContext extends DBContext {
             Booking booking = null;
             ResultSet rs = getConnection().prepareStatement(sql).executeQuery();
             while (rs.next()) {
-                booking = new Booking(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4) == 1 ? true : false, rs.getDate(5));
+                booking = new Booking(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4) == 1 ? true : false, rs.getDate(5),
+                        rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getInt(11), rs.getDouble(12));
                 b.add(booking);
             }
         } catch (SQLException ex) {

@@ -6,9 +6,16 @@
 package com.dal;
 
 import com.entities.FlightDetail;
+import com.entities.SearchInfo;
+import com.entities.SearchResult;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +60,43 @@ public class FlightDetailContext extends DBContext {
       ps.executeUpdate();
    }
 
+   public List<SearchResult> searchFlightDetails(SearchInfo info) throws Exception {
+      ArrayList<SearchResult> results = new ArrayList<>();
+      String sql = "select FLIGHT.flight_id,detail_id,flight_name,airline_name,from_location,to_location\n"
+              + "	,departure_time,arrival_time,departure_date,arrival_date\n"
+              + "from FLIGHT_DETAILS,FLIGHT \n"
+              + "where Flight.flight_id in( select flight_id from FLIGHT\n"
+              + "					where from_location=? and to_location=?\n"
+              + "					)\n"
+              + "	and departure_date=?\n"
+              + "	and avai_first_class_seats >=?\n"
+              + "	and avai_business_seats  >=?\n"
+              + "	and avai_economy_seats >=?";
+      PreparedStatement ps = getConnection().prepareStatement(sql);
+      ps.setString(1, info.getFromLocation());
+      ps.setString(2, info.getToLocation());
+      ps.setDate(3, info.getDepartureDate());
+      ps.setInt(4, info.getFirstClassBook());
+      ps.setInt(5, info.getBusinessBook());
+      ps.setInt(6, info.getEconomyBook());
+      ResultSet rs = ps.executeQuery();
+      while (rs.next()) {
+         SearchResult sr = new SearchResult();
+         sr.setFlightID(rs.getString(1));
+         sr.setDetailID(rs.getString(2));
+         sr.setFlightName(rs.getString(3));
+         sr.setAirlineName(rs.getString(4));
+         sr.setFromLocation(rs.getString(5));
+         sr.setToLocation(rs.getString(6));
+         sr.setDepartureTime(rs.getString(7));
+         sr.setArrivalTime(rs.getString(8));
+         sr.setDepartureDate(rs.getDate(9));
+         sr.setArrivalDate(rs.getDate(10));
+         results.add(sr);
+      }
+      return results;
+   }
+
    public FlightDetail searchFlightDetail(String detailID) throws Exception {
       String sql = "select * from FLIGHT_DETAILS where detail_id='" + detailID + "'";
       ResultSet rs = getConnection().prepareStatement(sql).executeQuery();
@@ -91,7 +135,7 @@ public class FlightDetailContext extends DBContext {
               + "      ,[avai_business_seats] = ?"
               + "      ,[avai_economy_seats] = ?"
               + " WHERE detail_id=?";
-      PreparedStatement ps=getConnection().prepareStatement(sql);
+      PreparedStatement ps = getConnection().prepareStatement(sql);
       ps.setString(1, detail.getFlightID());
       ps.setDate(2, detail.getDepartureDate());
       ps.setDate(3, detail.getArrivalDate());
@@ -105,12 +149,12 @@ public class FlightDetailContext extends DBContext {
       ps.executeUpdate();
    }
 
-   public List<FlightDetail> getAllFlightDetails() throws Exception{
-      String sql="select * from FLIGHT_DETAILS";
-      ResultSet rs=getConnection().prepareStatement(sql).executeQuery();
-      ArrayList<FlightDetail> flightDetails=new ArrayList<>();
-      while(rs.next()){
-         FlightDetail detail=new FlightDetail();
+   public List<FlightDetail> getAllFlightDetails() throws Exception {
+      String sql = "select * from FLIGHT_DETAILS";
+      ResultSet rs = getConnection().prepareStatement(sql).executeQuery();
+      ArrayList<FlightDetail> flightDetails = new ArrayList<>();
+      while (rs.next()) {
+         FlightDetail detail = new FlightDetail();
          detail.setDetailID(rs.getString(1));
          detail.setFlightID(rs.getString(2));
          detail.setDepartureDate(rs.getDate(3));
@@ -126,20 +170,4 @@ public class FlightDetailContext extends DBContext {
       return flightDetails;
    }
 
-//   public static void main(String[] args) throws Exception {
-//      FlightDetailContext fd = new FlightDetailContext();
-////      FlightDetail d=new FlightDetail();
-////      d.setFlightID("BAEJRU");
-////      d.setDepartureDate(new Date(new java.util.Date().getTime()));
-////      d.setArrivalDate(new Date(new java.util.Date().getTime()));
-////      d.setFirstClassPrice(40000);
-////      d.setBusinessPrice(20000);
-////      d.setEconomyPrice(10000);
-////      d.setAvailableFirstClassSeats(10);
-////      d.setAvailableBusinessSeats(100);
-////      d.setAvailableEconomySeats(1000);
-////      fd.addFlightDetail(d);
-//      //fd.removeFlight("TO301L");
-//      System.out.println(fd.getAllFlightDetails().size());
-//   }
 }

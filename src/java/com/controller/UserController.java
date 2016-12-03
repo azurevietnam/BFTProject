@@ -9,17 +9,19 @@ import com.dal.UserContext;
 import com.entities.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author SoN-TunG
+ * @author QuynhNguyen
  */
-public class LoginController extends HttpServlet {
+public class UserController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,26 +37,17 @@ public class LoginController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            String action = request.getParameter("action");
             String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            String btnLogin = request.getParameter("btnLogin");
-            HttpSession session = request.getSession(true);
-            if (btnLogin != null) {
-                try {
-                    User user = new UserContext().checkUser(username, password);
-                    if (user == null) {
-                        session.setAttribute("loginError", "Username or password incorrect");
-                        response.sendRedirect("login.jsp");
-                    } else {
-                        session.setAttribute("login", user);
-                        response.sendRedirect("index.jsp");
-                    }
-                } catch (Exception ex) {
-                    response.sendRedirect("index.jsp");
-                }
-            } else {
-                response.sendRedirect("index.jsp");
+            UserContext uc = new UserContext();
+            User u = uc.searchUser(username);
+            if (action.equals("edit")) {
+                request.setAttribute("user", u);
+                RequestDispatcher rd = request.getRequestDispatcher("adminEditUser.jsp");
+                rd.forward(request, response);
             }
+        } catch (Exception ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

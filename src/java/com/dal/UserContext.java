@@ -77,12 +77,36 @@ public class UserContext extends DBContext {
                 String facebookID = rs.getString(6);
                 String facebookLink = rs.getString(7);
                 int isAdmin = rs.getInt(8);
-                u = new User(username, pwd, firstName, lastName, email, facebookID, facebookLink, isAdmin == 1 ? true : false);
+                u = new User(usr, pwd, firstName, lastName, email, facebookID, facebookLink, isAdmin == 1 ? true : false);
             }
         } catch (SQLException ex) {
 
         }
         return u;
+    }
+
+    public List<User> searchUserByName(String username) {
+        List<User> lstUser = new ArrayList<>();
+        String sql = "SELECT * FROM USERS WHERE username LIKE '%" + username + "%'";
+        User u = null;
+        try {
+            ResultSet rs = getConnection().prepareStatement(sql).executeQuery();
+            while (rs.next()) {
+                String usr = rs.getString(1);
+                String pwd = rs.getString(2);
+                String firstName = rs.getString(3);
+                String lastName = rs.getString(4);
+                String email = rs.getString(5);
+                String facebookID = rs.getString(6);
+                String facebookLink = rs.getString(7);
+                int isAdmin = rs.getInt(8);
+                u = new User(usr, pwd, firstName, lastName, email, facebookID, facebookLink, isAdmin == 1 ? true : false);
+                lstUser.add(u);
+            }
+        } catch (SQLException ex) {
+
+        }
+        return lstUser;
     }
 
     public void removeUser(User user) {

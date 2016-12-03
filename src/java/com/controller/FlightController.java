@@ -5,12 +5,23 @@
  */
 package com.controller;
 
+import com.dal.FlightDetailContext;
+import com.entities.SearchInfo;
+import com.entities.SearchResult;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -30,17 +41,51 @@ public class FlightController extends HttpServlet {
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
       response.setContentType("text/html;charset=UTF-8");
-      try (PrintWriter out = response.getWriter()) {
-         /* TODO output your page here. You may use following sample code. */
-         out.println("<!DOCTYPE html>");
-         out.println("<html>");
-         out.println("<head>");
-         out.println("<title>Servlet FlightController</title>");         
-         out.println("</head>");
-         out.println("<body>");
-         out.println("<h1>Servlet FlightController at " + request.getContextPath() + "</h1>");
-         out.println("</body>");
-         out.println("</html>");
+      request.setCharacterEncoding("UTF-8");
+      String btnSearch = request.getParameter("btnSearch");
+      if (btnSearch != null) {
+         String fromLocation = request.getParameter("fromLocation");
+         String toLocation = request.getParameter("toLocation");
+         int adults = Integer.parseInt(request.getParameter("adults"));
+         int children = Integer.parseInt(request.getParameter("children"));
+         int infants = Integer.parseInt(request.getParameter("infants"));
+         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+         Date departureDate = null;
+         try {
+            departureDate = new Date(df.parse(request.getParameter("departureDate")).getTime());
+         } catch (ParseException ex) {
+            response.sendRedirect("index.jsp");
+         }
+         String classType = request.getParameter("class");
+         int firstClassBook = 0;
+         int businessBook = 0;
+         int economyBook = 0;
+         switch (classType) {
+            case "firstClass":
+               firstClassBook = adults + children;
+               break;
+            case "business":
+               businessBook = adults + children;
+               break;
+            default:
+               economyBook = adults + children;
+               break;
+         }
+         SearchInfo info = new SearchInfo(fromLocation, toLocation, departureDate, firstClassBook, businessBook, economyBook);
+         List<SearchResult> results=new ArrayList<>();
+         try {
+            results=new FlightDetailContext().searchFlightDetails(info);
+         } catch (Exception e) {
+         }
+         HttpSession session=request.getSession(true);
+         session.setAttribute("info", info);
+         session.setAttribute("results", results);
+         session.setAttribute("adults", adults);
+         session.setAttribute("children", children);
+         session.setAttribute("infants", infants);
+         response.sendRedirect("searchFlight.jsp");
+      } else {
+         response.sendRedirect("index.jsp");
       }
    }
 

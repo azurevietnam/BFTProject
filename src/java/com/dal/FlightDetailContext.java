@@ -63,7 +63,7 @@ public class FlightDetailContext extends DBContext {
    public List<SearchResult> searchFlightDetails(SearchInfo info) throws Exception {
       ArrayList<SearchResult> results = new ArrayList<>();
       String sql = "select FLIGHT.flight_id,detail_id,flight_name,airline_name,from_location,to_location\n"
-              + "	,departure_time,arrival_time,departure_date,arrival_date\n"
+              + "	,departure_time,arrival_time,first_class_price,business_price,economy_price\n"
               + "from FLIGHT_DETAILS,FLIGHT \n"
               + "where Flight.flight_id in( select flight_id from FLIGHT\n"
               + "					where from_location=? and to_location=?\n"
@@ -79,6 +79,13 @@ public class FlightDetailContext extends DBContext {
       ps.setInt(4, info.getFirstClassBook());
       ps.setInt(5, info.getBusinessBook());
       ps.setInt(6, info.getEconomyBook());
+      //get class type- index in sql result
+      int classType = 9;
+      if (info.getBusinessBook() > 0) {
+         classType = 10;
+      } else if (info.getEconomyBook() > 0) {
+         classType = 11;
+      }
       ResultSet rs = ps.executeQuery();
       while (rs.next()) {
          SearchResult sr = new SearchResult();
@@ -90,8 +97,7 @@ public class FlightDetailContext extends DBContext {
          sr.setToLocation(rs.getString(6));
          sr.setDepartureTime(rs.getString(7));
          sr.setArrivalTime(rs.getString(8));
-         sr.setDepartureDate(rs.getDate(9));
-         sr.setArrivalDate(rs.getDate(10));
+         sr.setPrice(rs.getDouble(classType));
          results.add(sr);
       }
       return results;
@@ -170,4 +176,11 @@ public class FlightDetailContext extends DBContext {
       return flightDetails;
    }
 
+//   public static void main(String[] args) throws Exception {
+//      FlightDetailContext fdc = new FlightDetailContext();
+//      SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//      Date d = new Date(df.parse("2016-10-10").getTime());
+//      SearchInfo info = new SearchInfo("Hà Nội HAN", "TP Hồ Chí Minh", d, 1, 0, 0);
+//      System.out.println(fdc.searchFlightDetails(info).size());
+//   }
 }

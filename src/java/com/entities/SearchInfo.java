@@ -23,6 +23,16 @@ public class SearchInfo implements Serializable{
    public SearchInfo() {
    }
 
+   public SearchInfo(String fromLocation, String toLocation, Date departureDate, int firstClassBook, int businessBook, int economyBook) {
+      this.fromLocation = fromLocation;
+      this.toLocation = toLocation;
+      this.departureDate = departureDate;
+      this.firstClassBook = firstClassBook;
+      this.businessBook = businessBook;
+      this.economyBook = economyBook;
+   }
+   
+
    public String getFromLocation() {
       return fromLocation;
    }

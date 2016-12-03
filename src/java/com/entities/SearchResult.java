@@ -14,8 +14,7 @@ import java.sql.Date;
  */
 public class SearchResult implements Serializable{
    private String flightID, detailID, flightName, airlineName, fromLocation,toLocation,departureTime,arrivalTime;
-   private Date departureDate,arrivalDate;
-
+   private double price;
    public SearchResult() {
    }
 
@@ -83,20 +82,13 @@ public class SearchResult implements Serializable{
       this.arrivalTime = arrivalTime;
    }
 
-   public Date getDepartureDate() {
-      return departureDate;
+   public double getPrice() {
+      return price;
    }
 
-   public void setDepartureDate(Date departureDate) {
-      this.departureDate = departureDate;
+   public void setPrice(double price) {
+      this.price = price;
    }
 
-   public Date getArrivalDate() {
-      return arrivalDate;
-   }
-
-   public void setArrivalDate(Date arrivalDate) {
-      this.arrivalDate = arrivalDate;
-   }
    
 }

@@ -6,7 +6,6 @@
 package com.dal;
 
 import com.entities.Passenger;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

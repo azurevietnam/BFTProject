@@ -45,8 +45,8 @@ public class FlightContext extends DBContext {
       ps.setString(3, flight.getAirlineName());
       ps.setString(4, flight.getFromLocation());
       ps.setString(5, flight.getToLocation());
-      ps.setDate(6, flight.getDepartureTime());
-      ps.setDate(7, flight.getArrivalTime());
+      ps.setString(6, flight.getDepartureTime());
+      ps.setString(7, flight.getArrivalTime());
       ps.setInt(8, flight.getFirstClassSeats());
       ps.setInt(9, flight.getBusinessSeats());
       ps.setInt(10, flight.getEconomySeats());
@@ -54,7 +54,6 @@ public class FlightContext extends DBContext {
    }
 
    public Flight searchFlight(String flightID) throws Exception {
-      ArrayList<Flight> flights = new ArrayList<>();
       String sql = "select * from FLIGHT where flight_id='" + flightID + "'";
       ResultSet rs = getConnection().prepareStatement(sql).executeQuery();
       while (rs.next()) {
@@ -64,8 +63,8 @@ public class FlightContext extends DBContext {
          f.setAirlineName(rs.getString(3));
          f.setFromLocation(rs.getString(4));
          f.setToLocation(rs.getString(5));
-         f.setDepartureTime(rs.getDate(6));
-         f.setArrivalTime(rs.getDate(7));
+         f.setDepartureTime(rs.getString(6));
+         f.setArrivalTime(rs.getString(7));
          f.setFirstClassSeats(rs.getInt(8));
          f.setBusinessSeats(rs.getInt(9));
          f.setEconomySeats(rs.getInt(10));
@@ -97,8 +96,8 @@ public class FlightContext extends DBContext {
       ps.setString(2, flight.getAirlineName());
       ps.setString(3, flight.getFromLocation());
       ps.setString(4, flight.getToLocation());
-      ps.setDate(5, flight.getDepartureTime());
-      ps.setDate(6, flight.getArrivalTime());
+      ps.setString(5, flight.getDepartureTime());
+      ps.setString(6, flight.getArrivalTime());
       ps.setInt(7, flight.getFirstClassSeats());
       ps.setInt(8, flight.getBusinessSeats());
       ps.setInt(9, flight.getEconomySeats());
@@ -117,8 +116,8 @@ public class FlightContext extends DBContext {
          f.setAirlineName(rs.getString(3));
          f.setFromLocation(rs.getString(4));
          f.setToLocation(rs.getString(5));
-         f.setDepartureTime(rs.getDate(6));
-         f.setArrivalTime(rs.getDate(7));
+         f.setDepartureTime(rs.getString(6));
+         f.setArrivalTime(rs.getString(7));
          f.setFirstClassSeats(rs.getInt(8));
          f.setBusinessSeats(rs.getInt(9));
          f.setEconomySeats(rs.getInt(10));

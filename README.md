@@ -4,7 +4,9 @@ SOFTWARE ENGINEERING PROJECT
 
 FPT UNIVERSITY
 
-PROJECT : F-AIR
+PROJECT :
+
+--------------------------->  F-AIR  <---------------------------
 
 BOOKING FLIGHT TICKETS
 

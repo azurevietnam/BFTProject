@@ -12,16 +12,20 @@ import java.io.Serializable;
  * @author SoN-TunG
  */
 public class Passenger implements Serializable{
-   private String passengerID,firstName,lastName,address,telNo,email;
+   private String passengerID,bookingID,firstName,lastName;
+   private int gender;
+   private String country,telNo,email;
 
    public Passenger() {
    }
 
-   public Passenger(String passengerID, String firstName, String lastName, String address, String telNo, String email) {
+   public Passenger(String passengerID, String bookingID, String firstName, String lastName, int gender, String country, String telNo, String email) {
       this.passengerID = passengerID;
+      this.bookingID = bookingID;
       this.firstName = firstName;
       this.lastName = lastName;
-      this.address = address;
+      this.gender = gender;
+      this.country = country;
       this.telNo = telNo;
       this.email = email;
    }
@@ -32,6 +36,14 @@ public class Passenger implements Serializable{
 
    public void setPassengerID(String passengerID) {
       this.passengerID = passengerID;
+   }
+
+   public String getBookingID() {
+      return bookingID;
+   }
+
+   public void setBookingID(String bookingID) {
+      this.bookingID = bookingID;
    }
 
    public String getFirstName() {
@@ -50,12 +62,20 @@ public class Passenger implements Serializable{
       this.lastName = lastName;
    }
 
-   public String getAddress() {
-      return address;
+   public int getGender() {
+      return gender;
    }
 
-   public void setAddress(String address) {
-      this.address = address;
+   public void setGender(int gender) {
+      this.gender = gender;
+   }
+
+   public String getCountry() {
+      return country;
+   }
+
+   public void setCountry(String country) {
+      this.country = country;
    }
 
    public String getTelNo() {
@@ -73,5 +93,6 @@ public class Passenger implements Serializable{
    public void setEmail(String email) {
       this.email = email;
    }
+
    
 }

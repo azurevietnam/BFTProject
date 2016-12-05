@@ -5,12 +5,21 @@
  */
 package com.controller;
 
+import com.dal.BookingContext;
+import com.dal.FlightDetailContext;
+import com.dal.PassengerContext;
+import com.entities.Booking;
+import com.entities.FlightDetail;
+import com.entities.Passenger;
+import com.entities.SearchInfo;
+import com.entities.User;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,17 +40,62 @@ public class BookingController extends HttpServlet {
            throws ServletException, IOException {
       response.setContentType("text/html;charset=UTF-8");
       request.setCharacterEncoding("UTF-8");
-      try (PrintWriter out = response.getWriter()) {
-         /* TODO output your page here. You may use following sample code. */
-         out.println("<!DOCTYPE html>");
-         out.println("<html>");
-         out.println("<head>");
-         out.println("<title>Servlet BookingController</title>");         
-         out.println("</head>");
-         out.println("<body>");
-         out.println("<h1>Servlet BookingController at " + request.getContextPath() + "</h1>");
-         out.println("</body>");
-         out.println("</html>");
+      HttpSession session = request.getSession(true);
+      String action = request.getParameter("action");
+      if (action != null) {
+         //add new booking
+         if (action.equals("add")) {
+            SearchInfo info = (SearchInfo) session.getAttribute("info");
+            if (info != null) {// user has searched before
+               String detailID = request.getParameter("id");
+               int adults = (int) session.getAttribute("adults");
+               int children = (int) session.getAttribute("children");
+               int infants = (int) session.getAttribute("infants");
+               User user = (User) session.getAttribute("login");
+               Date bookingDate = new Date(new java.util.Date().getTime());
+               double totalPrice = Double.parseDouble(request.getParameter("total"));
+               Booking booking = new Booking("", user.getUsername(), detailID, false, bookingDate, adults, children,
+                       infants, info.getFirstClassBook(), info.getBusinessBook(), info.getEconomyBook(), totalPrice);
+               String bookingId = "";
+               try {
+                  bookingId = new BookingContext().addBooking(booking);
+                  
+                  // update available seats in flight details
+                  FlightDetailContext fdContext=new FlightDetailContext();
+                  FlightDetail fd=fdContext.searchFlightDetail(detailID);
+                  fd.setAvailableFirstClassSeats(fd.getAvailableFirstClassSeats()-info.getFirstClassBook());
+                  fd.setAvailableBusinessSeats(fd.getAvailableBusinessSeats()-info.getBusinessBook());
+                  fd.setAvailableEconomySeats(fd.getAvailableEconomySeats()-info.getEconomyBook());
+                  fdContext.updateFlight(fd);
+                  
+                  
+               } catch (Exception ex) {
+               }
+
+               //add passenger
+               String telNo = request.getParameter("telNo");
+               String email = request.getParameter("email");
+
+               try {
+                  PassengerContext pc = new PassengerContext();
+                  for (int i = 1; i <= adults + children + infants; i++) {
+                     String firstName = request.getParameter("firstName" + i);
+                     String lastName = request.getParameter("lastName" + i);
+                     int gender = Integer.parseInt(request.getParameter("gender" + i));
+                     String country = request.getParameter("country" + i);
+                     Passenger passenger = new Passenger("", bookingId, firstName, lastName, gender, country, telNo, email);
+                     pc.addPassenger(passenger);
+                  }
+               } catch (Exception ex) {
+               }
+               response.sendRedirect("index.jsp");
+            } else {
+               //go back searchFlight.jsp to search
+               response.sendRedirect("searchFlight.jsp");
+            }
+         }
+      } else {//go back to index.jsp
+         response.sendRedirect("index.jsp");
       }
    }
 

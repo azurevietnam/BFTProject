@@ -13,8 +13,11 @@ import java.sql.Date;
  * @author SoN-TunG
  */
 public class SearchResult implements Serializable{
-   private String flightID, detailID, flightName, airlineName, fromLocation,toLocation,departureTime,arrivalTime;
+   private String flightID, detailID, flightName, airlineName,departureTime,arrivalTime;
+   private Date arrivalDate;
    private double price;
+   private boolean available;
+
    public SearchResult() {
    }
 
@@ -50,22 +53,6 @@ public class SearchResult implements Serializable{
       this.airlineName = airlineName;
    }
 
-   public String getFromLocation() {
-      return fromLocation;
-   }
-
-   public void setFromLocation(String fromLocation) {
-      this.fromLocation = fromLocation;
-   }
-
-   public String getToLocation() {
-      return toLocation;
-   }
-
-   public void setToLocation(String toLocation) {
-      this.toLocation = toLocation;
-   }
-
    public String getDepartureTime() {
       return departureTime;
    }
@@ -82,6 +69,14 @@ public class SearchResult implements Serializable{
       this.arrivalTime = arrivalTime;
    }
 
+   public Date getArrivalDate() {
+      return arrivalDate;
+   }
+
+   public void setArrivalDate(Date arrivalDate) {
+      this.arrivalDate = arrivalDate;
+   }
+
    public double getPrice() {
       return price;
    }
@@ -90,5 +85,12 @@ public class SearchResult implements Serializable{
       this.price = price;
    }
 
+   public boolean isAvailable() {
+      return available;
+   }
+
+   public void setAvailable(boolean available) {
+      this.available = available;
+   }
    
 }

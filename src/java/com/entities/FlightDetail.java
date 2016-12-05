@@ -21,7 +21,7 @@ public class FlightDetail implements Serializable {
 
    public FlightDetail() {
    }
-
+   
    public String getDetailID() {
       return detailID;
    }

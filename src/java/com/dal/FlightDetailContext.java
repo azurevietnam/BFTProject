@@ -60,31 +60,38 @@ public class FlightDetailContext extends DBContext {
       ps.executeUpdate();
    }
 
+   /**
+    * Search flight by from, to location and departure date
+    *
+    * @param info search info
+    * @return
+    * @throws Exception
+    */
    public List<SearchResult> searchFlightDetails(SearchInfo info) throws Exception {
       ArrayList<SearchResult> results = new ArrayList<>();
-      String sql = "select FLIGHT.flight_id,detail_id,flight_name,airline_name,from_location,to_location\n"
-              + "	,departure_time,arrival_time,first_class_price,business_price,economy_price\n"
-              + "from FLIGHT_DETAILS,FLIGHT \n"
-              + "where Flight.flight_id in( select flight_id from FLIGHT\n"
-              + "					where from_location=? and to_location=?\n"
-              + "					)\n"
-              + "	and departure_date=?\n"
-              + "	and avai_first_class_seats >=?\n"
-              + "	and avai_business_seats  >=?\n"
-              + "	and avai_economy_seats >=?";
+      String sql = "SELECT flight_details.flight_id, detail_id,flight_name,airline_name,"
+              + "	departure_time,arrival_time,arrival_date,"
+              + "	first_class_price,business_price,economy_price,"
+              + "	avai_first_class_seats,avai_business_seats,avai_economy_seats"
+              + "   FROM FLIGHT_DETAILS,FLIGHT "
+              + "   WHERE "
+              + "	FLIGHT.flight_id=FLIGHT_DETAILS.flight_id"
+              + "       AND Flight.flight_id IN"
+              + "		( SELECT flight_id FROM FLIGHT"
+              + "		  WHERE from_location= ? AND to_location= ? "
+              + "		)"
+              + "	AND departure_date=?"
+              + "	";
       PreparedStatement ps = getConnection().prepareStatement(sql);
       ps.setString(1, info.getFromLocation());
       ps.setString(2, info.getToLocation());
       ps.setDate(3, info.getDepartureDate());
-      ps.setInt(4, info.getFirstClassBook());
-      ps.setInt(5, info.getBusinessBook());
-      ps.setInt(6, info.getEconomyBook());
       //get class type- index in sql result
-      int classType = 9;
+      int classType = 8;
       if (info.getBusinessBook() > 0) {
-         classType = 10;
+         classType = 9;
       } else if (info.getEconomyBook() > 0) {
-         classType = 11;
+         classType = 10;
       }
       ResultSet rs = ps.executeQuery();
       while (rs.next()) {
@@ -93,14 +100,35 @@ public class FlightDetailContext extends DBContext {
          sr.setDetailID(rs.getString(2));
          sr.setFlightName(rs.getString(3));
          sr.setAirlineName(rs.getString(4));
-         sr.setFromLocation(rs.getString(5));
-         sr.setToLocation(rs.getString(6));
-         sr.setDepartureTime(rs.getString(7));
-         sr.setArrivalTime(rs.getString(8));
+         sr.setDepartureTime(rs.getString(5));
+         sr.setArrivalTime(rs.getString(6));
+         sr.setArrivalDate(rs.getDate(7));
          sr.setPrice(rs.getDouble(classType));
+         int availableFirstClass = Integer.parseInt(rs.getString(11));
+         int availableBusiness = Integer.parseInt(rs.getString(12));
+         int availableEconomy = Integer.parseInt(rs.getString(13));
+         sr.setAvailable(availableFirstClass >= info.getFirstClassBook()
+                 && availableBusiness >= info.getBusinessBook()
+                 && availableEconomy >= info.getEconomyBook());
          results.add(sr);
       }
       return results;
+   }
+
+   public boolean checkAvailable(String detailID, int firstClassBook, int businessBook, int economyBook)
+           throws Exception {
+      String sql = "select avai_first_class_seats,avai_business_seats,avai_economy_seats\n"
+              + " from FLIGHT_DETAILS where detail_id=?";
+      PreparedStatement ps = getConnection().prepareStatement(sql);
+      ps.setString(1, detailID);
+      ResultSet rs = ps.executeQuery();
+      if (rs.next()) {
+         return rs.getInt(1) >= firstClassBook
+                 && rs.getInt(2) >= businessBook
+                 && rs.getInt(3) >= economyBook;
+      } else {
+         return false;
+      }
    }
 
    public FlightDetail searchFlightDetail(String detailID) throws Exception {
@@ -174,6 +202,25 @@ public class FlightDetailContext extends DBContext {
          flightDetails.add(detail);
       }
       return flightDetails;
+   }
+
+   /**
+    * get price of tickets by class type
+    *
+    * @param detail_id detail_id of flight details
+    * @param classType 5-first class, 6-business, 7-economy
+    * @return price of ticket
+    * @throws java.lang.Exception
+    */
+   public double getPrice(String detail_id, int classType) throws Exception {
+      String sql = "select * from FLIGHT_DETAILS where detail_id=?";
+      PreparedStatement ps = getConnection().prepareStatement(sql);
+      ps.setString(1, detail_id);
+      ResultSet rs = ps.executeQuery();
+      while (rs.next()) {
+         return rs.getDouble(classType);
+      }
+      return -1;
    }
 
 //   public static void main(String[] args) throws Exception {

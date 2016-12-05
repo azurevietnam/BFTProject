@@ -20,6 +20,14 @@
         <servlet-name>UserController</servlet-name>
         <servlet-class>com.controller.UserController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AutocompleteController</servlet-name>
+        <servlet-class>com.controller.AutocompleteController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AutocompleteToLocation</servlet-name>
+        <servlet-class>com.controller.AutocompleteToLocation</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>BookingController</servlet-name>
         <url-pattern>/BookingController</url-pattern>
@@ -40,13 +48,21 @@
         <servlet-name>UserController</servlet-name>
         <url-pattern>/UserController</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AutocompleteController</servlet-name>
+        <url-pattern>/AutocompleteController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AutocompleteToLocation</servlet-name>
+        <url-pattern>/AutocompleteToLocation</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-       <welcome-file>
+        <welcome-file>
             index.jsp
        </welcome-file>
     </welcome-file-list>

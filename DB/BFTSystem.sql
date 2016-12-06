@@ -115,12 +115,14 @@ select * from BOOKING
 
 insert into USERS values('tungds','admin','Tung','Dong','tungds@fpt.vn','','',1)
 
-
-select * from FLIGHT_DETAILS
-
-select * from PASSENGER
-
-select * from BOOKING
-
-select avai_first_class_seats,avai_business_seats,avai_economy_seats
- from FLIGHT_DETAILS where detail_id='AE87NU'
+SELECT booking_id, flight_name, airline_name, from_location+' to '+to_location as route,
+	booking_closed,booking_date, departure_date, arrival_date,total_price,
+	class=CASE 
+				WHEN first_class_book>0 THEN 'First Class'
+				WHEN business_book>0 THEN 'Business'
+				ELSE 'Economy'
+			END  
+FROM BOOKING,FLIGHT_DETAILS,FLIGHT  
+WHERE BOOKING.detail_id=FLIGHT_DETAILS.detail_id  
+AND FLIGHT_DETAILS.flight_id=FLIGHT.flight_id
+AND username='tungds'

@@ -5,6 +5,7 @@
  */
 package com.dal;
 
+import com.entities.BookingHistory;
 import com.entities.FlightDetail;
 import com.entities.SearchInfo;
 import com.entities.SearchResult;
@@ -223,11 +224,22 @@ public class FlightDetailContext extends DBContext {
       return -1;
    }
 
+   public BookingHistory getBookingHistory(String detailID, BookingHistory bh) throws Exception {
+      String sql = "select * from FLIGHT_DETAILS where detail_id=?";
+      PreparedStatement ps = getConnection().prepareStatement(sql);
+      ps.setString(1, detailID);
+      ResultSet rs = ps.executeQuery();
+      while (rs.next()) {
+         bh.setDepartureDate(rs.getDate(3));
+         bh.setArrivalDate(rs.getDate(4));
+      }
+      return bh;
+   }
 //   public static void main(String[] args) throws Exception {
 //      FlightDetailContext fdc = new FlightDetailContext();
-//      SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//      Date d = new Date(df.parse("2016-10-10").getTime());
-//      SearchInfo info = new SearchInfo("Hà Nội HAN", "TP Hồ Chí Minh", d, 1, 0, 0);
-//      System.out.println(fdc.searchFlightDetails(info).size());
+//      List<FlightDetail> details=fdc.getAllFlightDetails();
+//      for (FlightDetail d:details){
+//         System.out.println(d.getDepartureDate().toString());
+//      }
 //   }
 }

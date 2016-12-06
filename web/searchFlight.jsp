@@ -8,7 +8,6 @@
 <%@page import="java.util.List"%>
 <%@page import="com.entities.SearchResult"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
    <head>
@@ -63,7 +62,10 @@
       <% List<SearchResult> results = (List<SearchResult>) session.getAttribute("results");
          SearchInfo info = (SearchInfo) session.getAttribute("info");
          if (results != null) {
+            if (session.getAttribute("bookingStatus") != null) {
       %>
+      <p style="color: red"><%=session.getAttribute("bookingStatus")%></p>
+      <%}%>
       <table border="1" cellspacing="0">
          <tr>
             <th>Flight</th>
@@ -75,8 +77,7 @@
             <th>Price</th>
             <th>Book</th>
          </tr>
-         <%
-            for (int i = 0; i < results.size(); i++) {
+         <%            for (int i = 0; i < results.size(); i++) {
                SearchResult r = results.get(i);
          %>
          <tr>
@@ -96,24 +97,16 @@
                } else {
                %>
                <strong>Out of tickets</strong> 
-               <%
-                  }
-               %>
+               <%}%>
             </td>
          </tr>
          <%}%>
       </table>
       <%}
-
          if (info != null) {
             int adults = (int) session.getAttribute("adults");
             int children = (int) session.getAttribute("children");
             int infants = (int) session.getAttribute("infants");
       %>
-      <p>Detail cart</p>
-      <p>Adults : <%=adults%></p>
-      <p>Children : <%=children%></p>
-      <p>Infants: <%=infants%></p>
-      <%}%>
    </body>
 </html>

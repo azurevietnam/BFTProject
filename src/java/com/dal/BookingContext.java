@@ -6,6 +6,8 @@
 package com.dal;
 
 import com.entities.Booking;
+import com.entities.BookingHistory;
+import com.entities.FlightDetail;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -57,7 +59,7 @@ public class BookingContext extends DBContext {
          ps.setInt(11, booking.getEconomyClassBook());
          ps.setDouble(12, booking.getTotalPrice());
          ps.executeUpdate();
-         
+
          return id;
       } catch (SQLException e) {
          return null;
@@ -65,7 +67,7 @@ public class BookingContext extends DBContext {
    }
 
    public Booking searchBooking(String bookingID) {
-      String sql = "SELECT * FROM BOOKING WHERE booking_id=" + bookingID;
+      String sql = "SELECT * FROM BOOKING WHERE booking_id='" + bookingID+"'";
       Booking booking = null;
       try {
          ResultSet rs = getConnection().prepareStatement(sql).executeQuery();
@@ -79,16 +81,19 @@ public class BookingContext extends DBContext {
       return booking;
    }
 
-   public void removeBooking(Booking booking) {
+   public void removeBooking(String bookingID) throws Exception {
+      //Change available seats in flight
+      Booking b = searchBooking(bookingID);
+      FlightDetail fd = new FlightDetailContext().searchFlightDetail(b.getDetailID());
+      fd.setAvailableFirstClassSeats(fd.getAvailableFirstClassSeats() + b.getFirstClassBook());
+      fd.setAvailableBusinessSeats(fd.getAvailableBusinessSeats() + b.getBusinessClassBook());
+      fd.setAvailableEconomySeats(fd.getAvailableEconomySeats() + b.getEconomyClassBook());
+      new FlightDetailContext().updateFlight(fd);
+      //remove booking
       String sql = "DELETE FROM BOOKING WHERE booking_id = ?";
-      try {
-         PreparedStatement ps = getConnection().prepareStatement(sql);
-         ps.setString(1, booking.getBookingID());
-         ps.executeUpdate();
-      } catch (SQLException ex) {
-         Logger.getLogger(BookingContext.class.getName()).log(Level.SEVERE, null, ex);
-      }
-
+      PreparedStatement ps = getConnection().prepareStatement(sql);
+      ps.setString(1, bookingID);
+      ps.executeUpdate();
    }
 
    public void updateBooking(Booking booking) {
@@ -107,7 +112,7 @@ public class BookingContext extends DBContext {
       List<Booking> b = new ArrayList<>();
       String sql = "SELECT * FROM BOOKING";
       try {
-         Booking booking ;
+         Booking booking;
          ResultSet rs = getConnection().prepareStatement(sql).executeQuery();
          while (rs.next()) {
             booking = new Booking(rs.getString(1), rs.getString(2), rs.getString(3), (rs.getInt(4) == 1), rs.getDate(5),
@@ -119,5 +124,38 @@ public class BookingContext extends DBContext {
       }
       return b;
    }
-   
+
+   public List<BookingHistory> getBookingByUsername(String username) throws Exception {
+      List<BookingHistory> bookings = new ArrayList<>();
+      String sql = "SELECT booking_id, flight_name, airline_name, from_location+' to '+to_location as route, "
+              + "	booking_closed,booking_date, departure_date, arrival_date,total_price, "
+              + "	class=CASE  "
+              + "			WHEN first_class_book>0 THEN 'First Class' "
+              + "			WHEN business_book>0 THEN 'Business' "
+              + "			ELSE 'Economy' "
+              + "		END  "
+              + "FROM BOOKING,FLIGHT_DETAILS,FLIGHT  "
+              + "WHERE BOOKING.detail_id=FLIGHT_DETAILS.detail_id  "
+              + "AND FLIGHT_DETAILS.flight_id=FLIGHT.flight_id "
+              + "AND username=?";
+      PreparedStatement ps = getConnection().prepareStatement(sql);
+      ps.setString(1, username);
+      ResultSet rs = ps.executeQuery();
+      while (rs.next()) {
+         BookingHistory bh = new BookingHistory();
+         bh.setBookingID(rs.getString(1));
+         bh.setFlightName(rs.getString(2));
+         bh.setAirlineName(rs.getString(3));
+         bh.setRounte(rs.getString(4));
+         bh.setBookingClose(rs.getInt(5) == 1);
+         bh.setBookingDate(rs.getDate(6));
+         bh.setDepartureDate(rs.getDate(7));
+         bh.setArrivalDate(rs.getDate(8));
+         bh.setPrice(rs.getDouble(9));
+         bh.setClassType(rs.getString(10));
+         bookings.add(bh);
+      }
+      return bookings;
+   }
+
 }

@@ -5,8 +5,8 @@
  */
 package com.dal;
 
+import com.entities.BookingHistory;
 import com.entities.Flight;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -142,6 +142,14 @@ public class FlightContext extends DBContext {
          }
       }
       return list;
+   }
+   
+   public BookingHistory getBookingHistory(String flightID,BookingHistory bh) throws Exception{
+      String sql = "select * from FLIGHT where flight_id='" + flightID + "'";
+      ResultSet rs=getConnection().prepareStatement(sql).executeQuery();
+      while(rs.next()){
+      }
+      return bh;
    }
 
 //   public static void main(String[] args) throws Exception {

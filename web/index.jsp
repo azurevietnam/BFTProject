@@ -24,5 +24,7 @@
       <%
       }
       %>
+      
+      <p><a href="history.jsp">history</a></p>
    </body>
 </html>

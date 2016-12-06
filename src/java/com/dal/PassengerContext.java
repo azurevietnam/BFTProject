@@ -72,12 +72,18 @@ public class PassengerContext extends DBContext {
       return passenger;
    }
 
-   public void removePassenger(Passenger passenger) throws Exception {
+   public void removePassenger(String passengerID) throws Exception {
       String sql = "DELETE FROM PASSENGER WHERE passenger_id = ?";
       PreparedStatement ps = getConnection().prepareStatement(sql);
-      ps.setString(1, passenger.getPassengerID());
+      ps.setString(1, passengerID);
       ps.executeUpdate();
 
+   }
+   public void removePassengerByBookingID(String bookingID) throws Exception{
+      String sql="delete from PASSENGER where booking_id=?";
+      PreparedStatement ps = getConnection().prepareStatement(sql);
+      ps.setString(1, bookingID);
+      ps.executeUpdate();
    }
 
    public void updatePassenger(Passenger passenger) {

@@ -12,9 +12,14 @@ import com.entities.Booking;
 import com.entities.FlightDetail;
 import com.entities.Passenger;
 import com.entities.SearchInfo;
+import com.entities.SearchResult;
 import com.entities.User;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -48,6 +53,23 @@ public class BookingController extends HttpServlet {
             SearchInfo info = (SearchInfo) session.getAttribute("info");
             if (info != null) {// user has searched before
                String detailID = request.getParameter("id");
+               //check seat available
+               boolean available = true;
+               try {
+                  available = new FlightDetailContext().checkAvailable(detailID,
+                          info.getFirstClassBook(), info.getBusinessBook(), info.getEconomyBook());
+               } catch (Exception ex) {
+                  available = false;
+               }
+               if (!available) {
+                  List<SearchResult> results = new ArrayList<>();
+                  try {
+                     results = new FlightDetailContext().searchFlightDetails(info);
+                  } catch (Exception e) {
+                  }
+                  session.setAttribute("results", results);
+                  session.setAttribute("bookingStatus", "You are late. Your tickets has been taken.");
+               }
                int adults = (int) session.getAttribute("adults");
                int children = (int) session.getAttribute("children");
                int infants = (int) session.getAttribute("infants");
@@ -59,16 +81,15 @@ public class BookingController extends HttpServlet {
                String bookingId = "";
                try {
                   bookingId = new BookingContext().addBooking(booking);
-                  
+
                   // update available seats in flight details
-                  FlightDetailContext fdContext=new FlightDetailContext();
-                  FlightDetail fd=fdContext.searchFlightDetail(detailID);
-                  fd.setAvailableFirstClassSeats(fd.getAvailableFirstClassSeats()-info.getFirstClassBook());
-                  fd.setAvailableBusinessSeats(fd.getAvailableBusinessSeats()-info.getBusinessBook());
-                  fd.setAvailableEconomySeats(fd.getAvailableEconomySeats()-info.getEconomyBook());
+                  FlightDetailContext fdContext = new FlightDetailContext();
+                  FlightDetail fd = fdContext.searchFlightDetail(detailID);
+                  fd.setAvailableFirstClassSeats(fd.getAvailableFirstClassSeats() - info.getFirstClassBook());
+                  fd.setAvailableBusinessSeats(fd.getAvailableBusinessSeats() - info.getBusinessBook());
+                  fd.setAvailableEconomySeats(fd.getAvailableEconomySeats() - info.getEconomyBook());
                   fdContext.updateFlight(fd);
-                  
-                  
+                  session.removeAttribute("bookingStatus");
                } catch (Exception ex) {
                }
 
@@ -92,6 +113,14 @@ public class BookingController extends HttpServlet {
             } else {
                //go back searchFlight.jsp to search
                response.sendRedirect("searchFlight.jsp");
+            }
+         } else if (action.equals("cancel")) {// cancel booking
+            String bookingID=request.getParameter("id");
+            try {
+               new PassengerContext().removePassengerByBookingID(bookingID);
+               new BookingContext().removeBooking(bookingID);
+               response.sendRedirect("history.jsp");
+            } catch (Exception ex) {
             }
          }
       } else {//go back to index.jsp

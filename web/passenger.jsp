@@ -32,24 +32,38 @@
          String id = request.getParameter("id");
          double price = new FlightDetailContext().getPrice(id, classType);
          double total = price * adults + price * children * 0.75 + price * infants * 0.1;
-         int passNum = 1;
+
       %>
       <div class="container">
          <div class="row">
             <div class="col-md-9">
-               <form action="BookingController" method="GET">
-                  <%                     for (int i = 1; i <= adults + children + infants; i++) {
-                  %>
-                  <fieldset>
-                     <legend>PASSENGER <%=passNum++%></legend>
-                     <p>First name <input type="text" name="<%="firstName" + i%>" value="" /></p>
-                     <p>Last name <input type="text" name="<%="lastName" + i%>" value="" /></p>
+               <form action="BookingController" method="GET" class="form-horizontal">
+                  <%for (int i = 1; i <= adults + children + infants; i++) {%>
+                  <div class="well" >
+                     <div>
+                        <h3 >PASSENGER <%=i%></h3>
+                     </div>
+
+                     <!--First name-->
+                     <div class="form-group">
+                        <label class="col-md-3 control-label">First name</label>
+                        <div class="col-md-5">
+                           <input type="text" name="<%="firstName" + i%>" class="form-control" />
+                        </div>
+                     </div>
+                     <!--Last name-->
+                     <div class="form-group">
+                        <label class="col-md-3 control-label">Last name</label>
+                        <div class="col-md-5">
+                           <input type="text" name="<%="lastName" + i%>" class="form-control" />
+                        </div>
+                     </div>
                      <p>Gender 
-                        <input type="radio" name="<%="gender" + i%>" value="1"/> Male
+                        <input type="radio" name="<%="gender" + i%>" value="1" checked/> Male
                         <input type="radio" name="<%="gender" + i%>" value="0"/> Female
                      </p>
                      <p>Country <input type="text" name="<%="country" + i%>" value="" /></p>
-                  </fieldset>
+                  </div>
                   <hr>
                   <%}%>
                   <fieldset>

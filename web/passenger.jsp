@@ -184,8 +184,6 @@
             $(".passenger_header, .details_header").click(function () {
                $(this).next().toggle(500);
             });
-            
-            
          });
       </script>
       <%}

@@ -15,6 +15,10 @@
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <title>History</title>
       <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+      <link href="css/historyBooking.css" rel="stylesheet" type="text/css"/>
+
+      <script src="js/jquery.min_2.js" type="text/javascript"></script>
+      <script src="js/bootstrap.min.js" type="text/javascript"></script>
    </head>
    <body>
       <%
@@ -63,14 +67,48 @@
                      <%
                      } else {
                      %>
-                     <a href="BookingController?action=cancel&id=<%=b.getBookingID()%>" class="btn btn-danger btn-sm">Cancel this booking</a>
+                     <button onclick="changelink('BookingController?action=cancel&id=<%=b.getBookingID()%>')" 
+                             type="button" class="btn btn-danger btn-smc" data-toggle="modal" data-target="#myModal">
+                        Cancel this booking
+                     </button>
                      <%}%>
+                  </td>
+                  <td>
+
                   </td>
                </tr>
                <%}%>
             </tbody>
          </table>
+         <!-- Modal -->
+         <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+               <!-- Modal content-->
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     <h4 class="modal-title">Confirm Cancel Booking</h4>
+                  </div>
+                  <div class="modal-body">
+                     <p>You sure want to cancel your booking flight?</p>
+                  </div>
+                  <div class="modal-footer">
+                     <a id="cancel_link" href="#" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancel your booking</a>
+                     <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Exit <span class="glyphicon glyphicon-log-out"></span>
+                     </button>
+                  </div>
+               </div>
+
+            </div>
+         </div>
       </div>
+      <script type="text/javascript">
+         function changelink(link) {
+            document.getElementById("cancel_link").href = link;
+         }
+      </script>
       <%
          }
          if (!pageRedirect.isEmpty()) {

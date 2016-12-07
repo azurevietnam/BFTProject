@@ -63,6 +63,7 @@ public class UserController extends HttpServlet {
                 if (isAdmin == null) {
                     isAdmin = "0";
                 }
+                //for comit
                 User user = new User(username, password, firstName, lastName, email,
                         facebookID, facebookLink, Integer.parseInt(isAdmin) == 1 ? true : false);
                 uc.updateUser(user);

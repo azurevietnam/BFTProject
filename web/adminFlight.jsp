@@ -20,8 +20,9 @@
         <link href="css/datepicker3.css" rel="stylesheet" type="text/css"/>
         <link href="css/style.css" rel="stylesheet" type="text/css"/>
 
-        <!--Icons-->
-        <script src="js/lumino.glyphs.js"></script>
+        <script src="js/jquery.min_2.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
+
     </head>
     <body>
         <%@include file="adminHeader.jsp" %>
@@ -43,10 +44,10 @@
                         <div class="panel-heading">
                             <h2>Flight Table</h2>
                         </div>
-                        <form action="adminFlight.jsp" method="POST" role="search" onsubmit="return valid();">
+                        <form action="adminFlight.jsp" method="POST" role="search">
                             <br />
                             <div class="form-group col-md-3 col-md-offset-5">
-                                <input type="text" name="txtSearch" class="form-control" placeholder="Search by Airline Name">
+                                <input type="text" name="txtSearch" required="" class="form-control" placeholder="Search by Airline Name">
                             </div>
                             <div class="form-group col-md-1">
                                 <button type="submit" name="btnSearch" class="btn btn-info" >
@@ -120,39 +121,62 @@
                                             <a href="FlightController?action=delete&flightID=<%=f.getFlightID()%>" class="btn btn-xs btn-warning">
                                                 <span class="glyphicon glyphicon-remove"></span> Delete
                                             </a>
+                                            <button type="button" onclick="changeLink('FlightController?action=delete&flightID=<%=f.getFlightID()%>')" 
+                                                    class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal">
+                                                <span class="glyphicon glyphicon-remove"></span> Delete
+                                            </button> 
+
                                         </td>
                                     </tr>
 
                                     <%  }%>
-                                    <tr>
-                                        <td colspan="11">
-                                            <ul class="pagination">
-                                                <%    // previous button
-                                                    int previous = Integer.parseInt(p != null ? p : "0") - 1;
-                                                    previous = (previous < 1) ? 1 : previous;
+                                    <!--Modal--> 
+                                <div class="modal fade" id="myModal" role="dialog">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h3 class="modal-title">Confirm Delete</h3>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure want to delete?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a id="deleteUser" href="#"  class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-ok"></span> Yes</a>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <tr>
+                                    <td colspan="11">
+                                        <ul class="pagination">
+                                            <%    // previous button
+                                                int previous = Integer.parseInt(p != null ? p : "0") - 1;
+                                                previous = (previous < 1) ? 1 : previous;
+                                            %>
+                                            <li>
+                                                <a class="page-link" href="adminFlight.jsp?p=<%=previous%>" aria-label="Next">
+                                                    <span aria-hidden="true">Previous</span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </li>
+                                            <% for (int i = 1; i <= totalPage; i++) {%>
+                                            <li><a href="adminFlight.jsp?p=<%=i%>"><%=i%></a></li>
+                                                <% }
+                                                    // Next button
+                                                    int next = Integer.parseInt(p != null ? p : "0") + 1;
+                                                    next = (next > totalPage) ? totalPage : next;
                                                 %>
-                                                <li>
-                                                    <a class="page-link" href="adminFlight.jsp?p=<%=previous%>" aria-label="Next">
-                                                        <span aria-hidden="true">Previous</span>
-                                                        <span class="sr-only">Next</span>
-                                                    </a>
-                                                </li>
-                                                <% for (int i = 1; i <= totalPage; i++) {%>
-                                                <li><a href="adminFlight.jsp?p=<%=i%>"><%=i%></a></li>
-                                                    <% }
-                                                        // Next button
-                                                        int next = Integer.parseInt(p != null ? p : "0") + 1;
-                                                        next = (next > totalPage) ? totalPage : next;
-                                                    %>
-                                                <li>
-                                                    <a class="page-link" href="adminFlight.jsp?p=<%=next%>" aria-label="Next">
-                                                        <span aria-hidden="true">Next</span>
-                                                        <span class="sr-only">Next</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </td>
-                                    </tr>
+                                            <li>
+                                                <a class="page-link" href="adminFlight.jsp?p=<%=next%>" aria-label="Next">
+                                                    <span aria-hidden="true">Next</span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
                                 </tbody>
                                 <%
                                     }
@@ -220,17 +244,13 @@
                 }
                 return true;
             }
+            function changeLink(link) {
+                document.getElementById("deleteUser").href = link;
+            }
         </script>
 
 
-        <script src="js/jquery-1.11.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/chart.min.js"></script>
-        <script src="js/chart-data.js"></script>
-        <script src="js/easypiechart.js"></script>
-        <script src="js/easypiechart-data.js"></script>
-        <script src="js/bootstrap-datepicker.js"></script>
-        <script src="js/bootstrap-table.js"></script>
+
 
     </body>
 </html>

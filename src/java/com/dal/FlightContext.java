@@ -18,15 +18,15 @@ import java.util.List;
  * @author SoN-TunG
  */
 public class FlightContext extends DBContext {
-
+    
     public FlightContext() throws Exception {
     }
-
+    
     @Override
     protected void finalize() throws Throwable {
         super.close();
     }
-
+    
     public void addFlight(Flight flight) throws Exception {
         String sql = "insert into FLIGHT values(?,?,?,?,?,?,?,?,?,?)";
         String checkSql = "select * from FLIGHT where flight_id=?";
@@ -100,8 +100,10 @@ public class FlightContext extends DBContext {
      * @throws Exception
      */
     public void removeFlight(String flightID) throws Exception {
-        String sql = "delete from FLIGHT where flight_id='" + flightID + "'";
-        getConnection().prepareStatement(sql).executeUpdate();
+        String sql = "delete from FLIGHT where flight_id=?";
+        PreparedStatement ps = getConnection().prepareStatement(sql);
+        ps.setString(1, flightID);
+        ps.executeUpdate();
     }
 
     /**
@@ -153,7 +155,7 @@ public class FlightContext extends DBContext {
         rs.close();
         return n;
     }
-
+    
     public int getRowCount(String airlineName) throws Exception {
         String sql = "select count(*) from FLIGHT where airline_name='" + airlineName + "'";
         PreparedStatement ps = getConnection().prepareStatement(sql);
@@ -165,7 +167,7 @@ public class FlightContext extends DBContext {
         rs.close();
         return n;
     }
-
+    
     public List<Flight> getAllFlight(int a, int b, String airlineName) throws Exception {
         ArrayList<Flight> flights = new ArrayList<>();
         // call store GetProducts with two param (?,?)
@@ -208,7 +210,7 @@ public class FlightContext extends DBContext {
         }
         return list;
     }
-
+    
     public BookingHistory getBookingHistory(String flightID, BookingHistory bh) throws Exception {
         String sql = "select * from FLIGHT where flight_id='" + flightID + "'";
         ResultSet rs = getConnection().prepareStatement(sql).executeQuery();

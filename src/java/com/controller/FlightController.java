@@ -49,7 +49,6 @@ public class FlightController extends HttpServlet {
             // search flight by SonTung
             response.setContentType("text/html;charset=UTF-8");
             request.setCharacterEncoding("UTF-8");
-            String btnSearch = request.getParameter("btnSearch");
             String action = request.getParameter("action");
             FlightContext fc = new FlightContext();
             if (action.equals("Search")) {

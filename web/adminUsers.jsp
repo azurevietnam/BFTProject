@@ -110,37 +110,62 @@
                                                 <a href="UserController?action=edit&username=${i.username}" class="btn btn-xs btn-primary">
                                                     <span class="glyphicon glyphicon-edit"></span> Edit
                                                 </a>
+
                                                 <a href="UserController?action=delete&username=${i.username}" 
                                                    onclick="return confirm('Are you sure want to delete?')" class="btn btn-xs btn-warning">
                                                     <span class="glyphicon glyphicon-remove"></span> Delete
                                                 </a>
+                                                <button type="button" onclick="changeLink('UserController?action=delete&username=${i.username}')" 
+                                                        class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-remove"></span> Delete</button> 
+
+
                                             </td>
                                         </tr>
                                     </c:forEach>
 
-                                    <%
-                                    } else {
-                                        if (u != null) {
-                                    %>
-                                    <tr>
-                                        <td><a href="#"><%=u.getUsername()%></a></td>
-                                        <td><%=u.getPassword()%></td>
-                                        <td><%=u.getFirstName()%></td>
-                                        <td><%=u.getLastName()%></td>
-                                        <td><%=u.getEmail()%></td>
-                                        <td><%=u.getFacebookID()%></td>
-                                        <td><%=u.getFacebookLink()%></td>
-                                        <td><%=u.isAdmin() ? "Admin" : "No"%></td>
-                                        <td>
-                                            <a href="UserController?action=edit&username=${i.username}">
-                                                Edit<span class="glyphicon glyphicon-edit"></span>
-                                            </a>|
-                                            <a data-toggle="confirmation" href="UserController?action=delete&username=${i.username}">
-                                                Delete<span class="glyphicon glyphicon-remove"></span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <% } else {%>
+
+                                    <!--Modal--> 
+                                <div class="modal fade" id="myModal" role="dialog">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h3 class="modal-title">Confirm Delete</h3>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure want to delete?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a id="deleteUser" href="#"  class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-ok"></span> Yes</a>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <%
+                                } else {
+                                    if (u != null) {
+                                %>
+                                <tr>
+                                    <td><a href="#"><%=u.getUsername()%></a></td>
+                                    <td><%=u.getPassword()%></td>
+                                    <td><%=u.getFirstName()%></td>
+                                    <td><%=u.getLastName()%></td>
+                                    <td><%=u.getEmail()%></td>
+                                    <td><%=u.getFacebookID()%></td>
+                                    <td><%=u.getFacebookLink()%></td>
+                                    <td><%=u.isAdmin() ? "Admin" : "No"%></td>
+                                    <td>
+                                        <a href="UserController?action=edit&username=${i.username}">
+                                            Edit<span class="glyphicon glyphicon-edit"></span>
+                                        </a>|
+                                        <a data-toggle="confirmation" href="UserController?action=delete&username=${i.username}">
+                                            Delete<span class="glyphicon glyphicon-remove"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <% } else {%>
                                 </tbody>
                             </table>
                             <div class="alert alert-danger col-md-3">
@@ -164,6 +189,9 @@
                     return false;
                 }
                 return true;
+            }
+            function changeLink(link) {
+                document.getElementById("deleteUser").href = link;
             }
         </script>
 

@@ -17,6 +17,7 @@
         <script src="js/jquery.min_2.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/bootstrapValidator.min.js" type="text/javascript"></script>
+        <link href="css/font-awesome.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <%@include file="header.jsp" %>
@@ -55,7 +56,7 @@
                                                         <input type="checkbox">
                                                         Remember me </label>
                                                 </div>-->
-                        <button type="submit" name="btnLogin" value="Login" class="btn btn btn-primary">
+                        <button type="submit" name="action" value="Login" class="btn btn btn-primary">
                             Sign In
                         </button>
                     </form>
@@ -76,6 +77,8 @@
             </div>
         </div>
 
+        <div class="clearfix"></div><br/>
+        <%@include file="footer.jsp" %>
 
 
 

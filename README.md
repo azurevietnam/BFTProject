@@ -2,11 +2,11 @@
 
 <h3>SOFTWARE ENGINEERING PROJECT</h3>
 
-FPT UNIVERSITY
+<h1>FPT UNIVERSITY</h1>
 
 PROJECT :
 
---------------------------->  F-AIR  <---------------------------
+<h1>---------------------------  F-AIR  --------------------------- </h1>
 
 BOOKING FLIGHT TICKETS
 

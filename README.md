@@ -8,15 +8,15 @@ PROJECT :
 
 <h1>---------------------------  F-AIR  --------------------------- </h1>
 
-BOOKING FLIGHT TICKETS
+     BOOKING FLIGHT TICKETS
 
-WEB APPLICATION
+     WEB APPLICATION
 
-CLASS :SE1010
+     CLASS :SE1010
 
-Team: 
--Đồng Sơn Tùng<br>
--Nguyễn Hữu Quỳnh<br>
--Nguyễn Hoài Nam<br>
--Đào Mạnh Tuấn<br>
--Nguyễn Chí Thành<br>
+     Team: 
+            -Đồng Sơn Tùng<br>
+            -Nguyễn Hữu Quỳnh<br>
+            -Nguyễn Hoài Nam<br>
+            -Đào Mạnh Tuấn<br>
+            -Nguyễn Chí Thành<br>

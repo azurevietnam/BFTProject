@@ -15,8 +15,9 @@ PROJECT :
      CLASS :SE1010
 
      Team: 
-            -Đồng Sơn Tùng<br>
-            -Nguyễn Hữu Quỳnh<br>
-            -Nguyễn Hoài Nam<br>
-            -Đào Mạnh Tuấn<br>
-            -Nguyễn Chí Thành<br>
+            -Đồng Sơn Tùng
+            -Nguyễn Hữu Quỳnh
+            -Nguyễn Hoài Nam
+            -Đào Mạnh Tuấn
+            -Nguyễn Chí Thành
+<hr>

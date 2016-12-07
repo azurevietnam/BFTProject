@@ -1,6 +1,6 @@
 # BFTProject
 
-<h3 style="text-align: center">SOFTWARE ENGINEERING PROJECT</h3>
+<h3 style="color: red">SOFTWARE ENGINEERING PROJECT</h3>
 
 <h1>FPT UNIVERSITY</h1>
 

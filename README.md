@@ -1,6 +1,7 @@
 # BFTProject
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-<h3>SOFTWARE ENGINEERING PROJECT</h3>
+<h3 class="text-primary">SOFTWARE ENGINEERING PROJECT</h3>
 
 <h1>FPT UNIVERSITY</h1>
 

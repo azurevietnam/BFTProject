@@ -48,6 +48,7 @@ public class BookingController extends HttpServlet {
       HttpSession session = request.getSession(true);
       String action = request.getParameter("action");
       String pageRedirect = "";
+      //test
       if (action != null) {
          //add new booking
          if (action.equals("add")) {

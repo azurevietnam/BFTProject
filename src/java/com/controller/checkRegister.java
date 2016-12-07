@@ -40,6 +40,7 @@ public class checkRegister extends HttpServlet {
       String password = request.getParameter("password");
       String email = request.getParameter("email");
       HttpSession session = request.getSession(true);
+      String pageRedirect = "";
       if (btnSubmit != null) {
          User user = new User();
          user.setAdmin(false);
@@ -49,19 +50,19 @@ public class checkRegister extends HttpServlet {
          user.setPassword(password);
          user.setEmail(email);
          try {
-            UserContext uc=new UserContext();
+            UserContext uc = new UserContext();
             uc.addUser(user);
             session.setAttribute("login", user);
-            response.sendRedirect("index.jsp");
+            pageRedirect = "index.jsp";
          } catch (Exception ex) {
             session.setAttribute("registerError", "Username is already exists");
             session.setAttribute("preInfo", user);
-            response.sendRedirect("register.jsp");
+            pageRedirect = "register.jsp";
          }
+      } else {
+         pageRedirect = "index.jsp";
       }
-      else{
-         response.sendRedirect("index.jsp");
-      }
+      response.sendRedirect(pageRedirect);
    }
 
    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -18,15 +18,15 @@
    </head>
    <body>
 
-      
+
       <div class="container">
          <%
-         if (session.getAttribute("loginError") != null) {
-      %>
-      <div class="alert alert-danger alert-dismissable"><%=session.getAttribute("loginError")%></div>
-      <%
-         }
-      %>
+            if (session.getAttribute("loginError") != null) {
+         %>
+         <div class="alert alert-danger alert-dismissable"><%=session.getAttribute("loginError")%></div>
+         <%
+            }
+         %>
          <form action="LoginController" method="POST" class="form-horizontal" id="login_from">
             <div class="form-group">
                <div class="col-lg-4 col-md-offset-3"><input type="text" name="username" class="form-control" placeholder="Username"/></div>

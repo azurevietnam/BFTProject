@@ -7,7 +7,13 @@ and open the template in the editor.
     Created on : Dec 6, 2016, 9:42:07 PM
     Author     : SoN-TunG
 */
-
+.has-error .control-label,
+.has-error .help-block,
+.has-success .control-label,
+.has-success .help-block
+{
+   color: white !important;
+}
 body{
    background: url('../img/bg.jpg') no-repeat center center fixed ;
    background-size: cover;

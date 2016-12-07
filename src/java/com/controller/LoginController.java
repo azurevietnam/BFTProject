@@ -39,22 +39,24 @@ public class LoginController extends HttpServlet {
             String password = request.getParameter("password");
             String btnLogin = request.getParameter("btnLogin");
             HttpSession session = request.getSession(true);
+            String pageRedirect="";
             if (btnLogin != null) {
                 try {
                     User user = new UserContext().checkUser(username, password);
                     if (user == null) {
                         session.setAttribute("loginError", "Username or password incorrect");
-                        response.sendRedirect("login.jsp");
+                        pageRedirect="login.jsp";
                     } else {
                         session.setAttribute("login", user);
-                        response.sendRedirect("index.jsp");
+                        pageRedirect="index.jsp";
                     }
                 } catch (Exception ex) {
-                    response.sendRedirect("index.jsp");
+                    pageRedirect="index.jsp";
                 }
             } else {
-                response.sendRedirect("index.jsp");
+                pageRedirect="index.jsp";
             }
+            response.sendRedirect(pageRedirect);
         }
     }
 

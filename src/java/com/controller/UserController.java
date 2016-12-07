@@ -41,11 +41,14 @@ public class UserController extends HttpServlet {
             String username = request.getParameter("username");
             UserContext uc = new UserContext();
             User u = uc.searchUser(username);
+            String pageRedirect="";
             if (action.equals("edit")) {
                 request.setAttribute("user", u);
-                RequestDispatcher rd = request.getRequestDispatcher("adminEditUser.jsp");
-                rd.forward(request, response);
+                pageRedirect="adminEditUser.jsp";
+            }else{
+               pageRedirect="index.jsp";
             }
+            response.sendRedirect(pageRedirect);
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }

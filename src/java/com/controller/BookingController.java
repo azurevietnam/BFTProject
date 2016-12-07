@@ -47,6 +47,7 @@ public class BookingController extends HttpServlet {
       request.setCharacterEncoding("UTF-8");
       HttpSession session = request.getSession(true);
       String action = request.getParameter("action");
+      String pageRedirect = "";
       if (action != null) {
          //add new booking
          if (action.equals("add")) {
@@ -70,6 +71,7 @@ public class BookingController extends HttpServlet {
                   session.setAttribute("results", results);
                   session.setAttribute("bookingStatus", "You are late. Your tickets has been taken.");
                }
+
                int adults = (int) session.getAttribute("adults");
                int children = (int) session.getAttribute("children");
                int infants = (int) session.getAttribute("infants");
@@ -109,23 +111,22 @@ public class BookingController extends HttpServlet {
                   }
                } catch (Exception ex) {
                }
-               response.sendRedirect("index.jsp");
+               pageRedirect = "index.jsp";
             } else {
-               //go back searchFlight.jsp to search
-               response.sendRedirect("searchFlight.jsp");
             }
          } else if (action.equals("cancel")) {// cancel booking
-            String bookingID=request.getParameter("id");
+            String bookingID = request.getParameter("id");
             try {
                new PassengerContext().removePassengerByBookingID(bookingID);
                new BookingContext().removeBooking(bookingID);
-               response.sendRedirect("history.jsp");
+               pageRedirect = "history.jsp";
             } catch (Exception ex) {
             }
          }
       } else {//go back to index.jsp
-         response.sendRedirect("index.jsp");
+         pageRedirect = "index.jsp";
       }
+      response.sendRedirect(pageRedirect);
    }
 
    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

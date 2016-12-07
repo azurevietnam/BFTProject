@@ -42,8 +42,9 @@ public class FlightController extends HttpServlet {
            throws ServletException, IOException {
       response.setContentType("text/html;charset=UTF-8");
       request.setCharacterEncoding("UTF-8");
-      String btnSearch = request.getParameter("btnSearch");
-      if (btnSearch != null) {
+      String action=request.getParameter("action");
+      String pageRedirect="";
+      if (action != null) {
          String fromLocation = request.getParameter("fromLocation");
          String toLocation = request.getParameter("toLocation");
          int adults = Integer.parseInt(request.getParameter("adults"));
@@ -54,7 +55,7 @@ public class FlightController extends HttpServlet {
          try {
             departureDate = new Date(df.parse(request.getParameter("departureDate")).getTime());
          } catch (ParseException ex) {
-            response.sendRedirect("index.jsp");
+            pageRedirect="index.jsp";
          }
          String classType = request.getParameter("class");
          int firstClassBook = 0;
@@ -83,10 +84,11 @@ public class FlightController extends HttpServlet {
          session.setAttribute("adults", adults);
          session.setAttribute("children", children);
          session.setAttribute("infants", infants);
-         response.sendRedirect("searchFlight.jsp");
+         pageRedirect="searchFlight.jsp";
       } else {
-         response.sendRedirect("index.jsp");
+         pageRedirect="index.jsp";
       }
+      response.sendRedirect(pageRedirect);
    }
 
    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

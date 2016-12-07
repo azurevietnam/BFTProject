@@ -224,22 +224,6 @@ public class FlightDetailContext extends DBContext {
       return -1;
    }
 
-   public BookingHistory getBookingHistory(String detailID, BookingHistory bh) throws Exception {
-      String sql = "select * from FLIGHT_DETAILS where detail_id=?";
-      PreparedStatement ps = getConnection().prepareStatement(sql);
-      ps.setString(1, detailID);
-      ResultSet rs = ps.executeQuery();
-      while (rs.next()) {
-         bh.setDepartureDate(rs.getDate(3));
-         bh.setArrivalDate(rs.getDate(4));
-      }
-      return bh;
-   }
-//   public static void main(String[] args) throws Exception {
-//      FlightDetailContext fdc = new FlightDetailContext();
-//      List<FlightDetail> details=fdc.getAllFlightDetails();
-//      for (FlightDetail d:details){
-//         System.out.println(d.getDepartureDate().toString());
-//      }
-//   }
+
+
 }

@@ -146,7 +146,7 @@ public class BookingContext extends DBContext {
          bh.setBookingID(rs.getString(1));
          bh.setFlightName(rs.getString(2));
          bh.setAirlineName(rs.getString(3));
-         bh.setRounte(rs.getString(4));
+         bh.setRoute(rs.getString(4));
          bh.setBookingClose(rs.getInt(5) == 1);
          bh.setBookingDate(rs.getDate(6));
          bh.setDepartureDate(rs.getDate(7));

@@ -43,7 +43,7 @@
                <tr>
                   <td><%=b.getFlightName()%></td>
                   <td><%=b.getAirlineName()%></td>
-                  <td><%=b.getRounte()%></td>
+                  <td><%=b.getRoute()%></td>
                   <td><%=b.getBookingDate()%></td>
                   <td><%=b.getDepartureDate()%></td>
                   <td><%=b.getArrivalDate()%></td>

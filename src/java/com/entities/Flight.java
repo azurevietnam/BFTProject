@@ -21,6 +21,20 @@ public class Flight implements Serializable {
     public Flight() {
     }
 
+   public Flight(String flightID, String flightName, String airlineName, String fromLocation, String toLocation, String departureTime, String arrivalTime, int firstClassSeats, int businessSeats, int economySeats) {
+      this.flightID = flightID;
+      this.flightName = flightName;
+      this.airlineName = airlineName;
+      this.fromLocation = fromLocation;
+      this.toLocation = toLocation;
+      this.departureTime = departureTime;
+      this.arrivalTime = arrivalTime;
+      this.firstClassSeats = firstClassSeats;
+      this.businessSeats = businessSeats;
+      this.economySeats = economySeats;
+   }
+    
+
     public String getFlightID() {
         return flightID;
     }

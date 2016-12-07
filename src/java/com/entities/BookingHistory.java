@@ -12,7 +12,7 @@ import java.sql.Date;
  * @author SoN-TunG
  */
 public class BookingHistory {
-   private String bookingID, flightName, airlineName, rounte;
+   private String bookingID, flightName, airlineName, route;
    private boolean bookingClose;
    private Date bookingDate;
    private String classType;
@@ -26,7 +26,7 @@ public class BookingHistory {
       this.bookingID = bookingID;
       this.flightName = flightName;
       this.airlineName = airlineName;
-      this.rounte = rounte;
+      this.route = rounte;
       this.bookingClose = bookingClose;
       this.bookingDate = bookingDate;
       this.classType = classType;
@@ -59,12 +59,12 @@ public class BookingHistory {
       this.airlineName = airlineName;
    }
 
-   public String getRounte() {
-      return rounte;
+   public String getRoute() {
+      return route;
    }
 
-   public void setRounte(String rounte) {
-      this.rounte = rounte;
+   public void setRoute(String route) {
+      this.route = route;
    }
 
    public boolean isBookingClose() {

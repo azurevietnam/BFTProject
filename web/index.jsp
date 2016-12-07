@@ -17,7 +17,7 @@
         <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <link href="css/indexStyle.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lobster" />
-
+        <link href="css/headerStyle.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery.min_2.js" type="text/javascript"></script>
         <script src="js/jquery-ui.min.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>

@@ -12,23 +12,23 @@ and open the template in the editor.
 .has-success .control-label,
 .has-success .help-block
 {
-   color: white !important;
+    color: white !important;
 }
 body{
-   background: url('../img/bg.jpg') no-repeat center center fixed ;
-   background-size: cover;
+    background: url('../img/bg.jpg') no-repeat center center fixed ;
+    background-size: cover;
 }
 .opacity-img-bg{
-   background: rgba(0,0,0, 0.5);
-   border-radius: 0.5em;
-   padding: 2em;
-   color:white;
-   font-size: 150%;
+    background: rgba(0,0,0, 0.5);
+    border-radius: 0.5em;
+    padding: 2em;
+    color:white;
+    font-size: 150%;
 }
 .title-web{
-   font-family: "lobster";
-   font-size: 400%;
+    font-family: "lobster";
+    font-size: 400%;
 }
 .child-lable{
-   margin-top: -20px;
+    margin-top: -20px;
 }

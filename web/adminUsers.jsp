@@ -14,8 +14,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>F-Air - Users</title>
-
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery.min_2.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/bootstrap-confirmation.js"></script>
         <link href="css/datepicker3.css" rel="stylesheet" type="text/css"/>
         <link href="css/style.css" rel="stylesheet" type="text/css"/>
 
@@ -31,21 +33,15 @@
         <%@include file="adminLeftSide.jsp" %>
         <!--Content-->
 
-        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">	
 
+
+        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-                    <li class="active">Icons</li>
+                    <li><a href="adminHome.jsp"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+                    <li class="active">USER</li>
                 </ol>
-            </div><!--/.row-->
-
-            <!--            <div class="row">
-                            <div class="col-lg-12">
-                                <h1 class="page-header">Tables</h1>
-                            </div>
-                        </div>/.row-->
-
+            </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">
@@ -53,21 +49,26 @@
                             <h2>Users Table</h2>
 
                         </div>
-                        <form action="adminUsers.jsp" method="POST" role="search">
+                        <form action="adminUsers.jsp" method="POST" onsubmit="return valid();" role="search">
                             <br />
-                            <div class="form-group col-md-3 col-md-offset-7">
+                            <div class="form-group col-md-3 col-md-offset-5">
                                 <input type="text" name="txtSearch" class="form-control" placeholder="Search by username">
                             </div>
                             <div class="form-group col-md-1">
-                                <button type="button" name="btnSearch" class="btn btn-info">
+                                <button type="submit" name="btnSearch" class="btn btn-info">
                                     <span class="glyphicon glyphicon-search"></span> Search
                                 </button>
                             </div>
 
                         </form>
                         <div class="form-group col-md-1">
-                            <a href="#" class="btn btn-info">
+                            <a href="adminAddUser.jsp" class="btn btn-info">
                                 <span class="glyphicon glyphicon-plus-sign"></span> Add 
+                            </a>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <a href="adminUsers.jsp" class="btn btn-info">
+                                <span class="glyphicon glyphicon-list-alt"></span> Show all 
                             </a>
                         </div>
                         <div class="panel-body">
@@ -86,26 +87,67 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <%  String username = request.getParameter("txtSearch");
+                                        User u = new UserContext().searchUser(username);
+                                        if (request.getParameter("btnSearch") == null) {
+                                    %>
                                     <c:forEach items="${b}" var="i">
-                                    <td><a href="#">${i.username}</a></td>
-                                    <td>${i.password}</td>
-                                    <td>${i.firstName}</td>
-                                    <td>${i.lastName}</td>
-                                    <td>${i.email}</td>
-                                    <td>${i.facebookID}</td>
-                                    <td>${i.facebookLink}</td>
-                                    <td>${i.admin?"Yes":"No"}</td>
-                                    <td>
-                                        <a href="UserController?action=edit&username=${i.username}">
-                                            Edit<span class="glyphicon glyphicon-edit"></span>
-                                        </a>|
-                                        <a href="#">
-                                            Delete<span class="glyphicon glyphicon-remove"></span>
-                                        </a>
-                                    </td>
-                                </c:forEach>
+                                        <tr>
+                                            <td>
+                                                ${i.username}<br/>
+                                                <a href="adminChgPassword.jsp?username=${i.username}" class="btn btn-xs btn-info">
+                                                    <span class="glyphicon glyphicon-edit"></span> Change password
+                                                </a>
+                                            </td>
+                                            <td>${i.password}</td>
+                                            <td>${i.firstName}</td>
+                                            <td>${i.lastName}</td>
+                                            <td>${i.email}</td>
+                                            <td>${i.facebookID}</td>
+                                            <td>${i.facebookLink}</td>
+                                            <td>${i.admin?"Yes":"No"}</td>
+                                            <td>
+                                                <a href="UserController?action=edit&username=${i.username}" class="btn btn-xs btn-primary">
+                                                    <span class="glyphicon glyphicon-edit"></span> Edit
+                                                </a>
+                                                <a href="UserController?action=delete&username=${i.username}" 
+                                                   onclick="return confirm('Are you sure want to delete?')" class="btn btn-xs btn-warning">
+                                                    <span class="glyphicon glyphicon-remove"></span> Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+
+                                    <%
+                                    } else {
+                                        if (u != null) {
+                                    %>
+                                    <tr>
+                                        <td><a href="#"><%=u.getUsername()%></a></td>
+                                        <td><%=u.getPassword()%></td>
+                                        <td><%=u.getFirstName()%></td>
+                                        <td><%=u.getLastName()%></td>
+                                        <td><%=u.getEmail()%></td>
+                                        <td><%=u.getFacebookID()%></td>
+                                        <td><%=u.getFacebookLink()%></td>
+                                        <td><%=u.isAdmin() ? "Admin" : "No"%></td>
+                                        <td>
+                                            <a href="UserController?action=edit&username=${i.username}">
+                                                Edit<span class="glyphicon glyphicon-edit"></span>
+                                            </a>|
+                                            <a data-toggle="confirmation" href="UserController?action=delete&username=${i.username}">
+                                                Delete<span class="glyphicon glyphicon-remove"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <% } else {%>
                                 </tbody>
                             </table>
+                            <div class="alert alert-danger col-md-3">
+                                <strong>Not found!</strong> User by username = <%=username%>
+                            </div>
+                            <% }
+                                }%>
                         </div>
                     </div>
                 </div>
@@ -115,14 +157,15 @@
         </div><!--/.main-->
 
 
-        <script src="js/jquery-1.11.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/chart.min.js"></script>
-        <script src="js/chart-data.js"></script>
-        <script src="js/easypiechart.js"></script>
-        <script src="js/easypiechart-data.js"></script>
-        <script src="js/bootstrap-datepicker.js"></script>
-        <script src="js/bootstrap-table.js"></script>
+        <script type="text/javascript">
+            function valid() {
+                var search = document.getElementsByName("txtSearch")[0].value.trim();
+                if (search === "") {
+                    return false;
+                }
+                return true;
+            }
+        </script>
 
     </body>
 </html>

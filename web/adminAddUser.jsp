@@ -1,12 +1,9 @@
 <%-- 
-    Document   : register
-    Created on : Nov 28, 2016, 9:31:56 AM
-    Author     : SoN-TunG
+    Document   : adminAddUser
+    Created on : Dec 5, 2016, 11:09:36 PM
+    Author     : QuynhNguyen
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="com.dal.UserContext"%>
-<%@page import="com.entities.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -25,6 +22,7 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/bootstrapValidator.min.js"></script>      
         <script src="js/register.js"></script>
+
     </head>
     <body>
         <%@include file="adminHeader.jsp" %>
@@ -35,14 +33,14 @@
                 <ol class="breadcrumb">
                     <li><a href="adminUsers.jsp">
                             <svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> USERS</a></li>
-                    <li class="active">EDIT USER</li>
+                    <li class="active">ADD USER</li>
                 </ol>
             </div>
 
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Edit informations of USER</div>
+                        <div class="panel-heading">Informations of USER</div>
                         <div class="panel-body">
 
                             <div class="col-md-8">
@@ -54,7 +52,7 @@
                                         <div class="col-md-8">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                <input class="form-control" type="text" name="firstName" value="${user.firstName}"/>
+                                                <input class="form-control" type="text" name="firstName" value=""/>
                                             </div>
                                         </div>
                                     </div>
@@ -64,7 +62,7 @@
                                         <div class="col-md-8">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                <input class="form-control" type="text" name="lastName" value="${user.lastName}"/>
+                                                <input class="form-control" type="text" name="lastName" value=""/>
                                             </div>
                                         </div>
                                     </div>
@@ -74,8 +72,28 @@
                                         <div class="col-md-8">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                <input class="form-control" type="text" name="username" value="${user.username}" readonly=""/>
+                                                <input class="form-control" type="text" name="username" value=""/>
 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--password-->
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Password</label>
+                                        <div class="col-md-8">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                <input class="form-control" type="password" name="password" value=""/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--comfirm password-->
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Confirm Password</label>
+                                        <div class="col-md-8">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                <input class="form-control" type="password" name="confirmPassword" value=""/>
                                             </div>
                                         </div>
                                     </div>
@@ -85,7 +103,7 @@
                                         <div class="col-md-8">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                                <input class="form-control" type="text" name="email" value="${user.email}"/>
+                                                <input class="form-control" type="text" name="email" value=""/>
                                             </div>
                                         </div>
                                     </div>
@@ -94,7 +112,7 @@
                                         <div class="col-md-8">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                                <input class="form-control" type="text" name="facebookID" value="${user.facebookID}"/>
+                                                <input class="form-control" type="text" name="facebookID" value=""/>
                                             </div>
                                         </div>
                                     </div>
@@ -103,23 +121,16 @@
                                         <div class="col-md-8">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-facebook-square"></i></span>
-                                                <input class="form-control" type="text" name="facebookLink" value="${user.facebookLink}"/>
+                                                <input class="form-control" type="text" name="facebookLink" value=""/>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-3">is Admin</label>
-                                        <div class="col-md-8">
-                                            <div class="input-group">
+                                        <div class="col-md-2">
+                                            <div class="input-group" class="col-md-2 ">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-check"></i></span>
-                                                    <c:choose>
-                                                        <c:when test="${user.admin==true}">
-                                                        <input type="checkbox" name="isAdmin" value="1" checked/>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <input  type="checkbox" name="isAdmin" value="1"/>
-                                                    </c:otherwise>
-                                                </c:choose>
+                                                <input  type="checkbox" class="form-control" name="isAdmin" value="1"/>
                                             </div>
                                         </div>
                                     </div>
@@ -127,8 +138,7 @@
                                     <div class="form-group">
                                         <label class="col-md-3 control-label"></label>
                                         <div class="col-md-8">
-                                            <button type="submit" name="action" value="Update" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span> Update</button>
-                                            <!--<input class="btn btn-warning glyphicon glyphicon-log-in" type="submit" value="Update" name="action">-->
+                                            <button type="submit" name="action" value="Add" class="btn btn-warning"><span class="glyphicon glyphicon-plus-sign"></span> Add</button>
                                         </div>
                                     </div>
                                     <% if (session.getAttribute("updateUserOK") != null) {
@@ -154,8 +164,5 @@
                 </div><!-- /.row -->
 
             </div><!--/.main-->
-
-
-
     </body>
 </html>

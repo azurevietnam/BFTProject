@@ -82,8 +82,7 @@
                                     </tr>
                                 </thead>
 
-                                <%  String airlineName = request.getParameter("txtSearch");
-                                    String p = request.getParameter("p");
+                                <%                                    String p = request.getParameter("p");
                                     FlightContext fc = null;
                                     fc = new FlightContext();
                                     //total row count
@@ -158,16 +157,15 @@
                                 <%
                                     }
                                 } else {
-//                                    int totalRow = fc.getRowCount(airlineName);
-//                                    int totalPage = (int) Math.ceil((totalRow * 1.0) / pageSize);
-                                    List<Flight> lstFlights = fc.getAllFlight(u, v, request.getParameter("txtSearch"));
+                                    String airlineName = request.getParameter("txtSearch");
+                                    List<Flight> lstFlights = fc.searchFlight(airlineName);
                                     if (lstFlights.size() > 0) {
                                         for (Flight f : lstFlights) {
 
                                 %>
                                 <tbody>
                                     <tr>
-                                        <td><a href="#"><%=f.getFlightID()%></a></td>
+                                        <td><%=f.getFlightID()%></td>
                                         <td><%=f.getFlightName()%></td>
                                         <td><%=f.getAirlineName()%></td>
                                         <td><%=f.getFromLocation()%></td>
@@ -195,7 +193,7 @@
                                 %>
 
                                 <div class="alert alert-danger col-md-3">
-                                    <strong>Not found!</strong> Flight by airline Name = <%=airlineName%>
+                                    <strong>Not found!</strong> Flight by airlineName = <%=airlineName%>
                                 </div>
                                 <%
                                         }

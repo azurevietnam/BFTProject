@@ -32,16 +32,16 @@ public class UserContext extends DBContext {
 
     public void addUser(User user) throws Exception {
 
-        String sql = "insert into [users] ( [username],"
-                + "[password],[first_name],[last_name],[email],[is_admin]) "
-                + "values(?,?,?,?,?,?)";
+        String sql = "INSERT into USERS values(?,?,?,?,?,?,?,?)";
         PreparedStatement ps = getConnection().prepareStatement(sql);
         ps.setString(1, user.getUsername());
         ps.setString(2, user.getPassword());
         ps.setString(3, user.getFirstName());
         ps.setString(4, user.getLastName());
         ps.setString(5, user.getEmail());
-        ps.setInt(6, user.isAdmin() ? 1 : 0);
+        ps.setString(6, user.getFacebookID());
+        ps.setString(7, user.getFacebookLink());
+        ps.setInt(8, user.isAdmin() ? 1 : 0);
         ps.executeUpdate();
     }
 
@@ -64,7 +64,7 @@ public class UserContext extends DBContext {
     }
 
     public User searchUser(String username) {
-        String sql = "SELECT * FROM USERS WHERE username=" + username;
+        String sql = "SELECT * FROM USERS WHERE username='" + username + "'";
         User u = null;
         try {
             ResultSet rs = getConnection().prepareStatement(sql).executeQuery();
@@ -87,7 +87,7 @@ public class UserContext extends DBContext {
 
     public List<User> searchUserByName(String username) {
         List<User> lstUser = new ArrayList<>();
-        String sql = "SELECT * FROM USERS WHERE username LIKE '%" + username + "%'";
+        String sql = "SELECT * FROM USERS WHERE username = '" + username + "'";
         User u = null;
         try {
             ResultSet rs = getConnection().prepareStatement(sql).executeQuery();
@@ -122,28 +122,36 @@ public class UserContext extends DBContext {
     }
 
     public void updateUser(User user) {
-        String sql = "UPDATE USERS"
-                + "SET password =?"
-                + ", first_name=?"
+
+        String sql = "UPDATE USERS SET first_name=?"
                 + ", last_name=?"
-                + ", email=?"
+                + ", [email]=?"
                 + ", facebook_id=?"
-                + ", facebook_link=?"
-                + "WHERE username=?";
+                + ", facebook_link=? WHERE username=?";
         try {
             PreparedStatement ps = getConnection().prepareStatement(sql);
-            ps.setString(1, user.getPassword());
-            ps.setString(2, user.getFirstName());
-            ps.setString(3, user.getLastName());
-            ps.setString(4, user.getEmail());
-            ps.setString(5, user.getFacebookID());
-            ps.setString(6, user.getFacebookLink());
-            ps.setString(7, user.getUsername());
+            ps.setString(1, user.getFirstName());
+            ps.setString(2, user.getLastName());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getFacebookID());
+            ps.setString(5, user.getFacebookLink());
+            ps.setString(6, user.getUsername());
             ps.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(UserContext.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
+    }
 
+    public void changePassword(String username, String newPassword) {
+        String sql = "UPDATE USERS SET [password]=? WHERE username=?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setString(1, newPassword);
+            ps.setString(2, username);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public List<User> getAllUser() {

@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -35,23 +36,70 @@ public class UserController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        String redirectPage = "";
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String action = request.getParameter("action");
             String username = request.getParameter("username");
             UserContext uc = new UserContext();
             User u = uc.searchUser(username);
-            String pageRedirect="";
             if (action.equals("edit")) {
-                request.setAttribute("user", u);
-                pageRedirect="adminEditUser.jsp";
-            }else{
-               pageRedirect="index.jsp";
+                session.setAttribute("user", u);
+                response.sendRedirect("adminEditUser.jsp");
+//                RequestDispatcher rd = request.getRequestDispatcher("adminEditUser.jsp");
+//                rd.forward(request, response);
+            } else if (action.equals("delete")) {
+                uc.removeUser(u);
+                response.sendRedirect("adminUsers.jsp");
+            } else if (action.equals("Update")) {
+                String password = u.getPassword();
+                String firstName = request.getParameter("firstName");
+                String lastName = request.getParameter("lastName");
+                String email = request.getParameter("email");
+                String facebookID = request.getParameter("facebookID");
+                String facebookLink = request.getParameter("facebookLink");
+                String isAdmin = request.getParameter("isAdmin");
+                if (isAdmin == null) {
+                    isAdmin = "0";
+                }
+                User user = new User(username, password, firstName, lastName, email,
+                        facebookID, facebookLink, Integer.parseInt(isAdmin) == 1 ? true : false);
+                uc.updateUser(user);
+                session.setAttribute("updateUserOK", 1);
+                session.setAttribute("user", null);
+                response.sendRedirect("adminEditUser.jsp");
+            } else if (action.equals("Add")) {
+                String usr = request.getParameter("username");
+                String password = request.getParameter("password");
+                String firstName = request.getParameter("firstName");
+                String lastName = request.getParameter("lastName");
+                String email = request.getParameter("email");
+                String facebookID = request.getParameter("facebookID");
+                String facebookLink = request.getParameter("facebookLink");
+                String isAdmin = request.getParameter("isAdmin");
+                if (isAdmin == null) {
+                    isAdmin = "0";
+                }
+                User user = new User(usr, password, firstName, lastName, email,
+                        facebookID, facebookLink, Integer.parseInt(isAdmin) == 1 ? true : false);
+                uc.addUser(user);
+//                redirectPage = "adminUser.jsp";
+                RequestDispatcher rd = request.getRequestDispatcher("adminUsers.jsp");
+                rd.forward(request, response);
+            } else if (action.equals("Save")) {
+                String usr = request.getParameter("username");
+                String password = request.getParameter("password");
+                uc.changePassword(usr, password);
+                session.setAttribute("saveOK", "Change password successful!");
+                RequestDispatcher rd = request.getRequestDispatcher("adminChgPassword.jsp");
+                rd.forward(request, response);
             }
-            response.sendRedirect(pageRedirect);
         } catch (Exception ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            session.setAttribute("updateUserError", 1);
+            response.sendRedirect("adminEditUser.jsp");
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

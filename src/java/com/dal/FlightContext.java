@@ -54,6 +54,32 @@ public class FlightContext extends DBContext {
         ps.executeUpdate();
     }
 
+    /**
+     * Search flight by flightID
+     *
+     * @param flightID
+     * @return
+     * @throws Exception
+     */
+    public Flight searchFlightByID(String flightID) throws Exception {
+        String sql = "select * from FLIGHT where [flight_id]='" + flightID + "'";
+        ResultSet rs = getConnection().prepareStatement(sql).executeQuery();
+        while (rs.next()) {
+            Flight f = new Flight(rs.getString(1), rs.getString(2), rs.getString(3),
+                    rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7),
+                    rs.getInt(8), rs.getInt(9), rs.getInt(10));
+            return f;
+        }
+        return null;
+    }
+
+    /**
+     * Search flight by airlineName
+     *
+     * @param airlineName
+     * @return
+     * @throws Exception
+     */
     public List<Flight> searchFlight(String airlineName) throws Exception {
         List<Flight> flights = new ArrayList<>();
         String sql = "select * from FLIGHT where [airline_name]='" + airlineName + "'";
@@ -67,11 +93,23 @@ public class FlightContext extends DBContext {
         return flights;
     }
 
+    /**
+     * Remove flight by flightID
+     *
+     * @param flightID
+     * @throws Exception
+     */
     public void removeFlight(String flightID) throws Exception {
         String sql = "delete from FLIGHT where flight_id='" + flightID + "'";
         getConnection().prepareStatement(sql).executeUpdate();
     }
 
+    /**
+     * Update Flight
+     *
+     * @param flight
+     * @throws Exception
+     */
     public void updateFlight(Flight flight) throws Exception {
         String sql = "UPDATE [dbo].[FLIGHT]"
                 + "   SET "

@@ -109,19 +109,32 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-3">is Admin</label>
-                                        <div class="col-md-8">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="glyphicon glyphicon-check"></i></span>
-                                                    <c:choose>
-                                                        <c:when test="${user.admin==true}">
-                                                        <input type="checkbox" name="isAdmin" value="1" checked/>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <input  type="checkbox" name="isAdmin" value="1"/>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </div>
-                                        </div>
+                                        <c:choose>
+                                            <c:when test="${user.admin==true}">
+                                                <div class="col-md-2">
+                                                    <div class="input-group" class="col-md-2 ">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-check"></i></span>
+                                                        <input  type="checkbox" class="form-control" name="isAdmin" value="1" checked=""/>
+                                                    </div>
+                                                </div>
+                                            </c:when>
+                                            <c:when test="${user.admin==false}">
+                                                <div class="col-md-2">
+                                                    <div class="input-group" class="col-md-2 ">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-check"></i></span>
+                                                        <input  type="checkbox" class="form-control" name="isAdmin" value="1"/>
+                                                    </div>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="col-md-2">
+                                                    <div class="input-group" class="col-md-2 ">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-check"></i></span>
+                                                        <input  type="checkbox" class="form-control" name="isAdmin" value="1"/>
+                                                    </div>
+                                                </div>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                     <!--Update-->
                                     <div class="form-group">

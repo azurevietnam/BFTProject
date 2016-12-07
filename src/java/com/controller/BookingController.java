@@ -111,7 +111,7 @@ public class BookingController extends HttpServlet {
                   }
                } catch (Exception ex) {
                }
-               pageRedirect = "index.jsp";
+               pageRedirect = "history.jsp";
             } else {
             }
          } else if (action.equals("cancel")) {// cancel booking

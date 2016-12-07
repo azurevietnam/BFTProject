@@ -10,15 +10,13 @@
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <title>Passenger Information</title>
       <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+      <link href="css/passenger.css" rel="stylesheet" type="text/css"/>
+      <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+
+
       <script src="js/jquery.min_2.js" type="text/javascript"></script>
-      <script type="text/javascript">
-         $(document).ready(function () {
-            $("#list_flight_deatils").hide();
-            $(".title_header").click(function () {
-               $(this).next().toggle(500);
-            });
-         });
-      </script>
+      
+      
    </head>
    <body>
 
@@ -54,25 +52,26 @@
          <hr>
          <div class="row">
             <div class="col-md-9">
-               <form action="BookingController" method="GET" class="form-horizontal">
+               <form action="BookingController" method="GET" class="form-horizontal" id="passenger_form  ">
+
                   <%for (int i = 1; i <= adults + children + infants; i++) {%>
                   <div class="well" >
-                     <div class="title_header">
-                        <h4 >PASSENGER <%=i%></h4>
+                     <div class="passenger_header">
+                        <h4 >PASSENGER <%=i%> <span class="fa fa-toggle-down"></span></h4>
                      </div>
                      <div class="hidden_content">
                         <!--First name-->
                         <div class="form-group">
                            <label class="col-md-3 control-label">First name</label>
                            <div class="col-md-5">
-                              <input type="text" name="<%="firstName" + i%>" class="form-control" />
+                              <input type="text" name="<%="firstName" + i%>" class="form-control" required/>
                            </div>
                         </div>
                         <!--Last name-->
                         <div class="form-group">
                            <label class="col-md-3 control-label">Last name</label>
                            <div class="col-md-5">
-                              <input type="text" name="<%="lastName" + i%>" class="form-control" />
+                              <input type="text" name="<%="lastName" + i%>" class="form-control" required />
                            </div>
                         </div>
                         <!--Gender-->
@@ -85,7 +84,7 @@
                         <div class="form-group">
                            <label class="col-md-3 control-label">Country</label>
                            <div class="col-md-5">
-                              <input type="text" name="<%="country" + i%>" class="form-control" />
+                              <input type="text" name="<%="country" + i%>" class="form-control" required/>
                            </div>
                         </div>
                      </div>
@@ -100,7 +99,7 @@
                      <div class="form-group">
                         <label class="col-md-3 control-label">Phone number</label>
                         <div class="col-md-5">
-                           <input type="text" name="telNo" class="form-control" />
+                           <input type="tel" name="telNo" class="form-control" required/>
                         </div>
                      </div>
 
@@ -108,7 +107,7 @@
                      <div class="form-group">
                         <label class="col-md-3 control-label">Email</label>
                         <div class="col-md-5">
-                           <input type="text" name="email" class="form-control" />
+                           <input type="email" name="email" class="form-control" required/>
                         </div>
                      </div>
 
@@ -124,8 +123,8 @@
             </div>
             <div class="col-md-3 well">
                <div>
-                  <button class="btn btn-primary btn-block btn-xs title_header" >
-                     <h3>Flight details <span class="glyphicon glyphicon-list text-right"></span></h3>
+                  <button class="btn btn-primary btn-block btn-xs details_header" >
+                     <h3>Flight details <span class="fa fa-toggle-right"></span></h3>
                   </button>
                   <div id="list_flight_deatils">
                      <ul class="list-group">
@@ -153,22 +152,22 @@
                            <tr>
                               <td><strong>Adults</strong></td>
                               <td><%=adults%></td>
-                              <td><%=String.format("%.0f", price * adults)%></td>
+                              <td><%=String.format("%1$,.0f", price * adults)%></td>
                            </tr>
                            <tr>
                               <td><strong>Children</strong></td>
                               <td><%=children%></td>
-                              <td><%=String.format("%.0f", price * children * 0.75)%></td>
+                              <td><%=String.format("%1$,.0f", price * children * 0.75)%></td>
                            </tr>
                            <tr>
                               <td><strong>Infants</strong></td>
                               <td><%=infants%></td>
-                              <td><%=String.format("%.0f", price * infants * 0.1)%></td>
+                              <td><%=String.format("%1$,.0f", price * infants * 0.1)%></td>
                            </tr>
                            <tr>
                               <td><strong>Total</strong></td>
                               <td><%=adults + children + infants%></td>
-                              <td><strong><%=String.format("%.0f", total)%></strong></td>
+                              <td><strong><%=String.format("%1$,.0f", total)%></strong></td>
                            </tr>
                         </tbody>
                      </table>
@@ -179,6 +178,16 @@
          </div>
          <hr>
       </div>
+      <script type="text/javascript">
+         $(document).ready(function () {
+            $("#list_flight_deatils").hide();
+            $(".passenger_header, .details_header").click(function () {
+               $(this).next().toggle(500);
+            });
+            
+            
+         });
+      </script>
       <%}
          }
          if (!pageRedirect.isEmpty()) {

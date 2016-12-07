@@ -126,3 +126,5 @@ FROM BOOKING,FLIGHT_DETAILS,FLIGHT
 WHERE BOOKING.detail_id=FLIGHT_DETAILS.detail_id  
 AND FLIGHT_DETAILS.flight_id=FLIGHT.flight_id
 AND username='tungds'
+
+select * from users

@@ -7,7 +7,12 @@ and open the template in the editor.
     Created on : Dec 7, 2016, 1:02:50 PM
     Author     : SoN-TunG
 */
-.passenger-title{
-   background-color: black;
-   color: yellow;
+.passenger_header{
+   background-color: black !important;
+   color: yellow !important;
+   padding: 5px !important;
+   border-radius: 5px !important;
+}
+.hidden_content{
+   padding: 10px;
 }

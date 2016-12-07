@@ -15,7 +15,7 @@ and open the template in the editor.
     color: white !important;
 }
 body{
-    background: url('../img/bg.jpg') no-repeat center center fixed ;
+    background: url('../img/5.jpg') no-repeat center center fixed;
     background-size: cover;
 }
 .opacity-img-bg{

@@ -18,8 +18,14 @@
    </head>
    <body>
       <%
-         User u = (User) session.getAttribute("login");
-         List<BookingHistory> bookings = new BookingContext().getBookingByUsername(u.getUsername());
+         String pageRedirect = "";
+         if (session.getAttribute("login") == null) {
+            pageRedirect = "login.jsp";
+            session.setAttribute("loginError", "You need login first");
+         } else {
+
+            User u = (User) session.getAttribute("login");
+            List<BookingHistory> bookings = new BookingContext().getBookingByUsername(u.getUsername());
       %>
       <div class="container">
          <table class="table table-hover">
@@ -65,5 +71,11 @@
             </tbody>
          </table>
       </div>
+      <%
+         }
+         if (!pageRedirect.isEmpty()) {
+            response.sendRedirect(pageRedirect);
+         }
+      %>
    </body>
 </html>

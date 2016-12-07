@@ -15,6 +15,7 @@
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <title>History</title>
       <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+
       <link href="css/historyBooking.css" rel="stylesheet" type="text/css"/>
 
       <script src="js/jquery.min_2.js" type="text/javascript"></script>
@@ -31,9 +32,29 @@
             User u = (User) session.getAttribute("login");
             List<BookingHistory> bookings = new BookingContext().getBookingByUsername(u.getUsername());
       %>
+      <%@include file="header.jsp" %>
       <div class="container">
+         <%
+            if (session.getAttribute("bookingStatus") != null) {
+               String type = "alert-success";
+               String status = (String) session.getAttribute("bookingStatus");
+               if (status.startsWith("Y")) {
+                  type = "alert-danger";
+               }
+         %>
+         <div class="col-md-4 col-md-offset-4">
+            <div class="alert alert-success alert-dismissible ">
+               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+               <strong></strong>
+            </div>
+         </div>
+         <%
+            }
+         %>
+
+
          <table class="table table-hover">
-            <thead>
+            <thead class="bg-primary">
                <tr>
                   <th>Flight name</th>
                   <th>Airline name</th>

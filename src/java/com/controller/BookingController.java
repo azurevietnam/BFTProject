@@ -120,6 +120,7 @@ public class BookingController extends HttpServlet {
                new PassengerContext().removePassengerByBookingID(bookingID);
                new BookingContext().removeBooking(bookingID);
                pageRedirect = "history.jsp";
+               session.setAttribute("bookingStatus", "Booking flight successfully");
             } catch (Exception ex) {
             }
          }

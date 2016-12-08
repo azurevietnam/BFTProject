@@ -22,6 +22,14 @@
     </head>
     <body>
         <!--header-->
+        <%
+            String pageRedirect = "";
+            if (session.getAttribute("login") == null) {
+                pageRedirect = "login.jsp";
+                session.setAttribute("loginError", "You need login first");
+            } else {
+
+        %>
         <%@include file="adminHeader.jsp" %>
         <!--body-->
         <%@include file="adminLeftSide.jsp" %>
@@ -296,6 +304,11 @@
                 </div><!--/.col-->
             </div><!--/.row-->
         </div>	<!--/.main-->
+        <%            }
+            if (!pageRedirect.isEmpty()) {
+                response.sendRedirect(pageRedirect);
+            }
+        %>
 
         <script src="js/jquery-1.11.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>

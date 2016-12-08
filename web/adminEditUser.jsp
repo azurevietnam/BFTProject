@@ -27,6 +27,14 @@
         <script src="js/register.js"></script>
     </head>
     <body>
+        <%
+            String pageRedirect = "";
+            if (session.getAttribute("login") == null) {
+                pageRedirect = "login.jsp";
+                session.setAttribute("loginError", "You need login first");
+            } else {
+
+        %>
         <%@include file="adminHeader.jsp" %>
         <%@include file="adminLeftSide.jsp" %>
 
@@ -167,7 +175,12 @@
                 </div><!-- /.row -->
 
             </div><!--/.main-->
+            <%            }
 
+                if (!pageRedirect.isEmpty()) {
+                    response.sendRedirect(pageRedirect);
+                }
+            %>
 
 
     </body>

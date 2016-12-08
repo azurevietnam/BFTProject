@@ -9,6 +9,7 @@ import com.dal.BookingContext;
 import com.dal.FlightDetailContext;
 import com.dal.PassengerContext;
 import com.entities.Booking;
+import com.entities.BookingHistory;
 import com.entities.FlightDetail;
 import com.entities.Passenger;
 import com.entities.SearchInfo;
@@ -32,144 +33,153 @@ import javax.servlet.http.HttpSession;
  */
 public class BookingController extends HttpServlet {
 
-   /**
-    * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-    * methods.
-    *
-    * @param request servlet request
-    * @param response servlet response
-    * @throws ServletException if a servlet-specific error occurs
-    * @throws IOException if an I/O error occurs
-    */
-   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-           throws ServletException, IOException {
-      response.setContentType("text/html;charset=UTF-8");
-      request.setCharacterEncoding("UTF-8");
-      HttpSession session = request.getSession(true);
-      String action = request.getParameter("action");
-      String pageRedirect = "";
-      //test
-      if (action != null) {
-         //add new booking
-         if (action.equals("add")) {
-            SearchInfo info = (SearchInfo) session.getAttribute("info");
-            if (info != null) {// user has searched before
-               String detailID = request.getParameter("id");
-               //check seat available
-               boolean available = true;
-               try {
-                  available = new FlightDetailContext().checkAvailable(detailID,
-                          info.getFirstClassBook(), info.getBusinessBook(), info.getEconomyBook());
-               } catch (Exception ex) {
-                  available = false;
-               }
-               if (!available) {
-                  List<SearchResult> results = new ArrayList<>();
-                  try {
-                     results = new FlightDetailContext().searchFlightDetails(info);
-                  } catch (Exception e) {
-                  }
-                  session.setAttribute("results", results);
-                  session.setAttribute("bookingStatus", "You are late. Your tickets has been taken.");
-               }
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession(true);
+        String action = request.getParameter("action");
+        String pageRedirect = "";
+        //test
+        if (action != null) {
+            //add new booking
+            if (action.equals("add")) {
+                SearchInfo info = (SearchInfo) session.getAttribute("info");
+                if (info != null) {// user has searched before
+                    String detailID = request.getParameter("id");
+                    //check seat available
+                    boolean available = true;
+                    try {
+                        available = new FlightDetailContext().checkAvailable(detailID,
+                                info.getFirstClassBook(), info.getBusinessBook(), info.getEconomyBook());
+                    } catch (Exception ex) {
+                        available = false;
+                    }
+                    if (!available) {
+                        List<SearchResult> results = new ArrayList<>();
+                        try {
+                            results = new FlightDetailContext().searchFlightDetails(info);
+                        } catch (Exception e) {
+                        }
+                        session.setAttribute("results", results);
+                        session.setAttribute("bookingStatus", "You are late. Your tickets has been taken.");
+                    }
 
-               int adults = (int) session.getAttribute("adults");
-               int children = (int) session.getAttribute("children");
-               int infants = (int) session.getAttribute("infants");
-               User user = (User) session.getAttribute("login");
-               Date bookingDate = new Date(new java.util.Date().getTime());
-               double totalPrice = Double.parseDouble(request.getParameter("total"));
-               Booking booking = new Booking("", user.getUsername(), detailID, false, bookingDate, adults, children,
-                       infants, info.getFirstClassBook(), info.getBusinessBook(), info.getEconomyBook(), totalPrice);
-               String bookingId = "";
-               try {
-                  bookingId = new BookingContext().addBooking(booking);
+                    int adults = (int) session.getAttribute("adults");
+                    int children = (int) session.getAttribute("children");
+                    int infants = (int) session.getAttribute("infants");
+                    User user = (User) session.getAttribute("login");
+                    Date bookingDate = new Date(new java.util.Date().getTime());
+                    double totalPrice = Double.parseDouble(request.getParameter("total"));
+                    Booking booking = new Booking("", user.getUsername(), detailID, false, bookingDate, adults, children,
+                            infants, info.getFirstClassBook(), info.getBusinessBook(), info.getEconomyBook(), totalPrice);
+                    String bookingId = "";
+                    try {
+                        bookingId = new BookingContext().addBooking(booking);
 
-                  // update available seats in flight details
-                  FlightDetailContext fdContext = new FlightDetailContext();
-                  FlightDetail fd = fdContext.searchFlightDetail(detailID);
-                  fd.setAvailableFirstClassSeats(fd.getAvailableFirstClassSeats() - info.getFirstClassBook());
-                  fd.setAvailableBusinessSeats(fd.getAvailableBusinessSeats() - info.getBusinessBook());
-                  fd.setAvailableEconomySeats(fd.getAvailableEconomySeats() - info.getEconomyBook());
-                  fdContext.updateFlight(fd);
-                  session.removeAttribute("bookingStatus");
-               } catch (Exception ex) {
-               }
+                        // update available seats in flight details
+                        FlightDetailContext fdContext = new FlightDetailContext();
+                        FlightDetail fd = fdContext.searchFlightDetail(detailID);
+                        fd.setAvailableFirstClassSeats(fd.getAvailableFirstClassSeats() - info.getFirstClassBook());
+                        fd.setAvailableBusinessSeats(fd.getAvailableBusinessSeats() - info.getBusinessBook());
+                        fd.setAvailableEconomySeats(fd.getAvailableEconomySeats() - info.getEconomyBook());
+                        fdContext.updateFlight(fd);
+                        session.removeAttribute("bookingStatus");
+                    } catch (Exception ex) {
+                    }
 
-               //add passenger
-               String telNo = request.getParameter("telNo");
-               String email = request.getParameter("email");
+                    //add passenger
+                    String telNo = request.getParameter("telNo");
+                    String email = request.getParameter("email");
 
-               try {
-                  PassengerContext pc = new PassengerContext();
-                  for (int i = 1; i <= adults + children + infants; i++) {
-                     String firstName = request.getParameter("firstName" + i);
-                     String lastName = request.getParameter("lastName" + i);
-                     int gender = Integer.parseInt(request.getParameter("gender" + i));
-                     String country = request.getParameter("country" + i);
-                     Passenger passenger = new Passenger("", bookingId, firstName, lastName, gender, country, telNo, email);
-                     pc.addPassenger(passenger);
-                  }
+                    try {
+                        PassengerContext pc = new PassengerContext();
+                        for (int i = 1; i <= adults + children + infants; i++) {
+                            String firstName = request.getParameter("firstName" + i);
+                            String lastName = request.getParameter("lastName" + i);
+                            int gender = Integer.parseInt(request.getParameter("gender" + i));
+                            String country = request.getParameter("country" + i);
+                            Passenger passenger = new Passenger("", bookingId, firstName, lastName, gender, country, telNo, email);
+                            pc.addPassenger(passenger);
+                        }
 
-               } catch (Exception ex) {
-               }
-               session.setAttribute("bookingStatus", "Booking flight successfully");
-               pageRedirect = "history.jsp";
-            } else {
+                    } catch (Exception ex) {
+                    }
+                    session.setAttribute("bookingStatus", "Booking flight successfully");
+                    pageRedirect = "history.jsp";
+                } else {
+                }
+            } else if (action.equals("cancel")) {// cancel booking
+                String bookingID = request.getParameter("id");
+                try {
+                    new PassengerContext().removePassengerByBookingID(bookingID);
+                    new BookingContext().removeBooking(bookingID);
+                    pageRedirect = "history.jsp";
+                    session.setAttribute("bookingStatus", "Booking flight has been removed");
+                } catch (Exception ex) {
+                }
+            } else if (action.equals("view")) {
+                String username = request.getParameter("username");
+                try {
+                    List<BookingHistory> lstBooking = new BookingContext().getBookingByUsername(username);
+                    request.setAttribute("lstBooking", lstBooking);
+                    pageRedirect = "adminViewBooking.jsp";
+                } catch (Exception ex) {
+                    Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-         } else if (action.equals("cancel")) {// cancel booking
-            String bookingID = request.getParameter("id");
-            try {
-               new PassengerContext().removePassengerByBookingID(bookingID);
-               new BookingContext().removeBooking(bookingID);
-               pageRedirect = "history.jsp";
-               session.setAttribute("bookingStatus", "Booking flight has been removed");
-            } catch (Exception ex) {
-            }
-         }
-      } else {//go back to index.jsp
-         pageRedirect = "index.jsp";
-      }
-      response.sendRedirect(pageRedirect);
-   }
+        } else {//go back to index.jsp
+            pageRedirect = "index.jsp";
+        }
+        response.sendRedirect(pageRedirect);
+    }
 
-   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-   /**
-    * Handles the HTTP <code>GET</code> method.
-    *
-    * @param request servlet request
-    * @param response servlet response
-    * @throws ServletException if a servlet-specific error occurs
-    * @throws IOException if an I/O error occurs
-    */
-   @Override
-   protected void doGet(HttpServletRequest request, HttpServletResponse response)
-           throws ServletException, IOException {
-      processRequest(request, response);
-   }
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
 
-   /**
-    * Handles the HTTP <code>POST</code> method.
-    *
-    * @param request servlet request
-    * @param response servlet response
-    * @throws ServletException if a servlet-specific error occurs
-    * @throws IOException if an I/O error occurs
-    */
-   @Override
-   protected void doPost(HttpServletRequest request, HttpServletResponse response)
-           throws ServletException, IOException {
-      processRequest(request, response);
-   }
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
 
-   /**
-    * Returns a short description of the servlet.
-    *
-    * @return a String containing servlet description
-    */
-   @Override
-   public String getServletInfo() {
-      return "Short description";
-   }// </editor-fold>
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
 
 }

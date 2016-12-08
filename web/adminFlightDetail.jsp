@@ -16,7 +16,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>F-Air - Users</title>
-
+        <link href="css/font-awesome.css" rel="stylesheet" type="text/css"/>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="css/datepicker3.css" rel="stylesheet" type="text/css"/>
         <link href="css/style.css" rel="stylesheet" type="text/css"/>
@@ -25,6 +25,14 @@
         <script src="js/lumino.glyphs.js"></script>
     </head>
     <body>
+        <%
+            String pageRedirect = "";
+            if (session.getAttribute("login") == null) {
+                pageRedirect = "login.jsp";
+                session.setAttribute("loginError", "You need login first");
+            } else {
+
+        %>
         <%@include file="adminHeader.jsp" %>
         <%@include file="adminLeftSide.jsp" %>
         <!--Content-->
@@ -123,7 +131,11 @@
 
 
         </div><!--/.main-->
-
+        <%            }
+            if (!pageRedirect.isEmpty()) {
+                response.sendRedirect(pageRedirect);
+            }
+        %>
         <script type="text/javascript">
             function valid() {
                 var search = document.getElementsByName("txtSearch")[0].value.trim();

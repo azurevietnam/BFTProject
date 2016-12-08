@@ -14,6 +14,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>F-Air - Users</title>
+        <link href="css/font-awesome.css" rel="stylesheet" type="text/css"/>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery.min_2.js"></script>
         <script src="js/bootstrap.js"></script>
@@ -24,22 +25,22 @@
         <script src="js/lumino.glyphs.js"></script>
     </head>
     <body>
-
-
-        <jsp:useBean id="userBean" class="com.dal.UserContext" scope="session" />
         <%
-            pageContext.setAttribute("b", userBean.getAllUser());
+            String pageRedirect = "";
+            if (session.getAttribute("login") == null) {
+                pageRedirect = "login.jsp";
+                session.setAttribute("loginError", "You need login first");
+            } else {
+
+        %>
+        <jsp:useBean id="userBean" class="com.dal.UserContext" scope="session" />
+        <%            pageContext.setAttribute("b", userBean.getAllUser());
         %>
         <%@include file="adminHeader.jsp" %>
         <%@include file="adminLeftSide.jsp" %>
         <!--Content-->
 
-        <%    String pageRedirect = "";
 
-            if (session.getAttribute("login") == null) {
-                pageRedirect = "login.jsp";
-
-        %>
 
         <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
             <div class="row">
@@ -99,8 +100,7 @@
                                     %>
                                     <c:forEach items="${b}" var="i">
                                         <tr>
-                                            <td>
-                                                ${i.username}<br/>
+                                            <td><a href="BookingController?action=view&username=${i.username}">${i.username}</a><br/>
                                                 <a href="adminChgPassword.jsp?username=${i.username}" class="btn btn-xs btn-info">
                                                     <span class="glyphicon glyphicon-edit"></span> Change password
                                                 </a>
@@ -186,13 +186,11 @@
 
 
         </div><!--/.main-->
-        <%
-            }
+        <%            }
             if (!pageRedirect.isEmpty()) {
                 response.sendRedirect(pageRedirect);
             }
         %>
-
 
         <script type="text/javascript">
             function valid() {

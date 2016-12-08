@@ -7,8 +7,7 @@
 
 PROJECT :
 <hr>
-
-<h1>------------------------------  F-AIR  ------------------------------ </h1>
+<h1>------------------------------  F-AIR  -------------------------------</h1>
 <hr>
      BOOKING FLIGHT TICKETS
 
@@ -17,9 +16,10 @@ PROJECT :
      CLASS :SE1010
 
      Team: 
-            -Đồng Sơn Tùng
-            -Nguyễn Hữu Quỳnh
-            -Nguyễn Hoài Nam
-            -Đào Mạnh Tuấn
-            -Nguyễn Chí Thành
+            -Nguyễn Hoài Nam    - Team leader + Tester
+            -Đồng Sơn Tùng      - Developer
+            -Nguyễn Hữu Quỳnh   - Developer
+            -Nguyễn Chí Thành   - Developer + Tester
+            -Đào Mạnh Tuấn      - Tester
+            
 <hr>

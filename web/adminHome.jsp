@@ -11,7 +11,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>F-Air - Dashboard</title>
-
+        <link href="css/font-awesome.css" rel="stylesheet" type="text/css"/>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="css/datepicker3.css" rel="stylesheet" type="text/css"/>
         <link href="css/style.css" rel="stylesheet" type="text/css"/>
@@ -31,7 +31,7 @@
             <div class="row">
                 <ol class="breadcrumb">
                     <li><a href="adminHome.jsp"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-                    
+
                 </ol>
             </div><!--/.row-->
 

@@ -17,7 +17,6 @@
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery.min_2.js"></script>
         <script src="js/bootstrap.js"></script>
-        <script src="js/bootstrap-confirmation.js"></script>
         <link href="css/datepicker3.css" rel="stylesheet" type="text/css"/>
         <link href="css/style.css" rel="stylesheet" type="text/css"/>
 

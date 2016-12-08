@@ -59,7 +59,8 @@ public class LoginController extends HttpServlet {
                         pageRedirect = "index.jsp";
                     }
                 } else if (action.equals("logout")) {
-                    session.removeAttribute("user");
+                    session.removeAttribute("login");
+                    pageRedirect = "index.jsp";
                 }
             } else {
                 pageRedirect = "index.jsp";

@@ -33,8 +33,8 @@
 
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a href="adminFlight.jsp"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-                    <li class="active">FLIGHT</li>
+                    <li><a href="adminFlight.jsp"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> FLIGHT</a></li>
+                    <li class="active">FLIGHT DETAIL</li>
                 </ol>
             </div>
 

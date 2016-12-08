@@ -22,7 +22,7 @@
         <li class="<%=pActive%>"><a href="adminPassenger.jsp?p=active"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> PASSENGER</a></li>
         <li class=""><a href="#"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> BOOKING</a></li>
         <li role="presentation" class="divider"></li>
-        <li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Login Page</a></li>
+        <li><a href="index.jsp"><span class="fa fa-globe "></span> Visit Site</a></li>
     </ul>
 
 </div><!--/.sidebar-->

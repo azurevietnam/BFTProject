@@ -58,6 +58,7 @@ public class UserContext extends DBContext {
             user.setFirstName(rs.getString(3));
             user.setLastName(rs.getString(4));
             user.setEmail(rs.getString(5));
+            user.setAdmin(rs.getInt(8) == 1);
             return user;
         }
         return null;

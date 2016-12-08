@@ -13,9 +13,8 @@
       <link href="css/passenger.css" rel="stylesheet" type="text/css"/>
       <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
 
-
       <script src="js/jquery.min_2.js" type="text/javascript"></script>
-      
+      <script src="js/bootstrap.min.js" type="text/javascript"></script>
       
    </head>
    <body>
@@ -24,6 +23,7 @@
          String pageRedirect = "";
          if (session.getAttribute("login") == null) {
             pageRedirect = "login.jsp";
+            session.setAttribute("link", "searchFlight.jsp");
             session.setAttribute("loginError", "You need login first");
          } else {
             if (session.getAttribute("info") == null) {
@@ -114,8 +114,12 @@
                   </div>
                   <input class="hidden" type="text" name="id" value="<%=request.getParameter("id")%>" />
                   <input class="hidden" type="text" name="total" value="<%=total%>" />
+                  
+                  <!--Modal-->
+                  
+                  
                   <div class="col-md-4 col-md-offset-4">
-                     <button type="submit" name="action" value="add" class="btn btn-lg btn-warning btn-block">
+                     <button type="submit" name="action" value="add"  class="btn btn-lg btn-warning btn-block btn-smc">
                         Continue <span class="glyphicon glyphicon-circle-arrow-right"></span>
                      </button>
                   </div>

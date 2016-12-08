@@ -72,10 +72,18 @@ country nvarchar(30) ,
 tel_no nvarchar(15) ,
 email nvarchar(50) ,
 )
-delete from FLIGHT
-delete from FLIGHT_DETAILS
+
+select * from booking
 
 
+
+update BOOKING set booking_closed = 1
+where detail_id in ( 
+	select detail_id from FLIGHT_DETAILS where departure_date < getdate()
+) 
+
+
+insert into flight_details values('123456','CJ0NTD','2016-10-10','2016-12-12',6800000,2500000,800000,28,35,211)
 
 
 insert into flight values('CJ0NTD','VJE808','VietJet',N'Hà Nội (HAN)',N'Đà Nẵng (DAD)','3:10','4:20',28,35,211)

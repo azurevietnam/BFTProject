@@ -25,7 +25,6 @@
          <%@include file="header.jsp" %>
          <div id="content">
             <div>
-               <!--avasdadsf-->
                <fieldset>
                   <h3 class="text-primary">Forgot your password?</h3>
                   <p>Enter your email address and we'll help you reset your password.</p>

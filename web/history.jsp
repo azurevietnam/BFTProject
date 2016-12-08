@@ -42,6 +42,7 @@
                     <%             if (session.getAttribute("bookingStatus") != null) {
                             String type = "alert-success";
                             status = (String) session.getAttribute("bookingStatus");
+                            session.removeAttribute("bookingStatus");
                             if (status.startsWith("Y")) {
                                 type = "alert-danger";
                             }
@@ -57,7 +58,7 @@
                     %>
 
 
-                    <table class="table table-hover">
+                    <table class="table table-hover table-bordered">
                         <thead class="bg-primary">
                             <tr>
                                 <th>Flight name</th>
@@ -82,7 +83,7 @@
                                 <td><%=b.getBookingDate()%></td>
                                 <td><%=b.getDepartureDate()%></td>
                                 <td><%=b.getArrivalDate()%></td>
-                                <td><%=b.getPrice()%></td>
+                                <td><%=String.format("%1$,.0f", b.getPrice()) %></td>
                                 <td><%=b.getClassType()%></td>
                                 <td>
                                     <%

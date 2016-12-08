@@ -14,8 +14,6 @@
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <title>JSP Page</title>
-
-
       <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
       <link href="css/searchFlight.css" rel="stylesheet" type="text/css"/>
       <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lobster" />
@@ -26,15 +24,12 @@
    <body>
       <%
          String pageRedirect = "";
-         if (session.getAttribute("login") == null) {
-            pageRedirect = "login.jsp";
-            session.setAttribute("loginError", "You need login first");
+
+         if (session.getAttribute("results") == null) {
+            pageRedirect = "index.jsp";
          } else {
-            if (session.getAttribute("results") == null) {
-               pageRedirect = "index.jsp";
-            } else {
-               List<SearchResult> results = (List<SearchResult>) session.getAttribute("results");
-               SearchInfo info = (SearchInfo) session.getAttribute("info");
+            List<SearchResult> results = (List<SearchResult>) session.getAttribute("results");
+            SearchInfo info = (SearchInfo) session.getAttribute("info");
 
       %>
 
@@ -55,6 +50,16 @@
          <p style="color: red"><%=session.getAttribute("bookingStatus")%></p>
          <%}%>
          <div class="well">
+            <%
+               if (results.size() == 0) {
+            %>
+            <div class="alert alert-warning">
+               <h3 class="text-danger"><strong>No flight found!</strong></h3> <br>
+               <h4> We can not found any flights . Let try later or choose other day.</h4>
+            </div>
+            <%
+            } else {
+            %>
             <table class="table table-bordered">
                <tr class="bg-primary">
                   <th>Flight</th>
@@ -76,7 +81,7 @@
                   <td><%=info.getToLocation()%> </td>
                   <td><%=r.getDepartureTime()%> </td>
                   <td><%=r.getArrivalTime()%> </td>
-                  <td><%=String.format("%.0f", r.getPrice())%> </td>
+                  <td><%=String.format("%1$,.0f", r.getPrice())%> </td>
                   <td>
                      <%
                         if (r.isAvailable()) {
@@ -91,10 +96,13 @@
                </tr>
                <%}%>
             </table>
+            <%
+               }
+            %>
          </div>
          <%}
-               }
             }
+
             if (!pageRedirect.isEmpty()) {
                response.sendRedirect(pageRedirect);
             }

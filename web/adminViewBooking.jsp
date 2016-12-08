@@ -35,7 +35,7 @@
                 session.setAttribute("loginError", "You need login first");
             } else {
 
-        %>
+                %>
         <!--CONTENT-->
         <%@include file="adminHeader.jsp" %>
         <%@include file="adminLeftSide.jsp" %>
@@ -44,8 +44,9 @@
 
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a href="adminFlight.jsp"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-                    <li class="active">FLIGHT</li>
+                    <li><a href="adminUsers.jsp">
+                            <svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> USERS</a></li>
+                    <li class="active">VIEW BOOKING DETAIL</li>
                 </ol>
             </div>
 

@@ -86,14 +86,14 @@ public class Mail {
    public void setM_text() {
       this.m_text
               = "<h3>Hi " + name + ",</h3>"
-              + "<p>Your recently request to reset your password for your"
+              + "<p>Your recently request to reset your password for your "
               + "F-AIR account. Here is your new password:</p>"
               + "<hr>"
               + "<h4>" + newPassword + "</h4>"
               + "<hr>"
               + "<p>Your can change it later by <b>Change password option</b></p>"
               + "<p>Thank,</p>"
-              + "<p>F-AIR team</p>"
+              + "<p><b>F-AIR</b> team</p>"
               + "<p>FPT-university</p>";
 
    }

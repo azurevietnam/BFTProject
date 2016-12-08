@@ -8,7 +8,7 @@ $(document).ready(function () {
    }
 
    generateCaptcha();
-   $('#register_form').bootstrapValidator({
+   $('#register_form , #forgot_password').bootstrapValidator({
       // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
       feedbackIcons: {
          valid: 'glyphicon glyphicon-ok',
@@ -92,6 +92,18 @@ $(document).ready(function () {
                },
                emailAddress: {
                   message: 'Please supply a valid email address'
+               }
+            }
+         }
+         ,
+         confirmEmail: {
+            validators: {
+               notEmpty: {
+                  message: 'Please supply your email address'
+               },
+               identical: {
+                  field: 'email',
+                  message: 'The Email and its confirm are not the same'
                }
             }
          }

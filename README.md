@@ -19,7 +19,7 @@ PROJECT :
      Team: 
             -Nguyễn Hoài Nam    - Team leader + Tester
             -Đồng Sơn Tùng      - Developer
-            -Nguyễn Hữu Quỳnh   -Developer
+            -Nguyễn Hữu Quỳnh   - Developer
             -Nguyễn Chí Thành   - Developer + Tester
             -Đào Mạnh Tuấn      - Tester
             

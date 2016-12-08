@@ -101,9 +101,6 @@
                                     <c:forEach items="${b}" var="i">
                                         <tr>
                                             <td><a href="BookingController?action=view&username=${i.username}">${i.username}</a><br/>
-                                                <a href="adminChgPassword.jsp?username=${i.username}" class="btn btn-xs btn-info">
-                                                    <span class="glyphicon glyphicon-edit"></span> Change password
-                                                </a>
                                             </td>
                                             <td>${i.password}</td>
                                             <td>${i.firstName}</td>

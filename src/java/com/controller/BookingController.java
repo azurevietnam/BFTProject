@@ -128,10 +128,19 @@ public class BookingController extends HttpServlet {
                 } catch (Exception ex) {
                 }
             } else if (action.equals("view")) {
-                String username = request.getParameter("username");
                 try {
-                    List<BookingHistory> lstBooking = new BookingContext().getBookingByUsername(username);
-                    request.setAttribute("lstBooking", lstBooking);
+                    String usr = request.getParameter("username");
+                    List<BookingHistory> lstBooking = new BookingContext().getBookingByUsername(usr);
+                    session.setAttribute("lstBooking", lstBooking);
+                    pageRedirect = "adminViewBooking.jsp";
+                } catch (Exception ex) {
+                    Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if (action.equals("updateStatus")) {
+                int count = 0;
+                try {
+                    count = new BookingContext().updateBookingStatus();
+                    session.setAttribute("count", count);
                     pageRedirect = "adminViewBooking.jsp";
                 } catch (Exception ex) {
                     Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);

@@ -32,9 +32,9 @@
                 %>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <%=user.getUsername()%> <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <%=user.getFirstName()%> <%=user.getLastName()%> <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#"><span class="glyphicon glyphicon-user"></span>  Profile</a></li>
+                            <li><a href="changePassword.jsp?username=<%=user.getUsername()%>"><span class="glyphicon glyphicon-edit"></span>  Change password</a></li>
                             <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
                             <li><a href="LoginController?action=logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                         </ul>

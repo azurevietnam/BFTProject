@@ -40,13 +40,13 @@
                     </ul>
                 </div>
                 <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
-                    <h3> Lorem Ipsum </h3>
+<!--                    <h3> Lorem Ipsum </h3>
                     <ul>
                         <li> <a href="#"> Lorem Ipsum </a> </li>
                         <li> <a href="#"> Lorem Ipsum </a> </li>
                         <li> <a href="#"> Lorem Ipsum </a> </li>
                         <li> <a href="#"> Lorem Ipsum </a> </li>
-                    </ul>
+                    </ul>-->
                 </div>
                 <div class="col-lg-3  col-md-3 col-sm-6 col-xs-12 ">
                     <h3> Contact Us </h3>

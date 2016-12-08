@@ -33,7 +33,7 @@
                 session.setAttribute("loginError", "You need login first");
             } else {
 
-        %>
+                %>
         <%@include file="adminHeader.jsp" %>
         <%@include file="adminLeftSide.jsp" %>
         <!--Content-->
@@ -127,65 +127,43 @@
                                             <a href="FlightController?action=edit&flightID=<%=f.getFlightID()%>" class="btn btn-xs btn-primary">
                                                 <span class="glyphicon glyphicon-edit"></span> Edit
                                             </a>
-                                            <a href="FlightController?action=delete&flightID=<%=f.getFlightID()%>" class="btn btn-xs btn-warning">
+                                            <a href="FlightController?action=delete&flightID=<%=f.getFlightID()%>" 
+                                               onclick="return confirm('Are you sure want to delete?')" class="btn btn-xs btn-warning">
                                                 <span class="glyphicon glyphicon-remove"></span> Delete
                                             </a>
-                                            <button type="button" onclick="changeLink('FlightController?action=delete&flightID=<%=f.getFlightID()%>')" 
-                                                    class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal">
-                                                <span class="glyphicon glyphicon-remove"></span> Delete
-                                            </button> 
-
                                         </td>
                                     </tr>
 
                                     <%  }%>
-                                    <!--Modal--> 
-                                <div class="modal fade" id="myModal" role="dialog">
-                                    <div class="modal-dialog modal-sm">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                <h3 class="modal-title">Confirm Delete</h3>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Are you sure want to delete?</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <a id="deleteUser" href="#"  class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-ok"></span> Yes</a>
-                                                <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <tr>
-                                    <td colspan="11">
-                                        <ul class="pagination">
-                                            <%    // previous button
-                                                int previous = Integer.parseInt(p != null ? p : "0") - 1;
-                                                previous = (previous < 1) ? 1 : previous;
-                                            %>
-                                            <li>
-                                                <a class="page-link" href="adminFlight.jsp?p=<%=previous%>" aria-label="Next">
-                                                    <span aria-hidden="true">Previous</span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
-                                            </li>
-                                            <% for (int i = 1; i <= totalPage; i++) {%>
-                                            <li><a href="adminFlight.jsp?p=<%=i%>"><%=i%></a></li>
-                                                <% }
-                                                    // Next button
-                                                    int next = Integer.parseInt(p != null ? p : "0") + 1;
-                                                    next = (next > totalPage) ? totalPage : next;
+                                    <tr>
+                                        <td colspan="11">
+                                            <ul class="pagination">
+                                                <%    // previous button
+                                                    int previous = Integer.parseInt(p != null ? p : "0") - 1;
+                                                    previous = (previous < 1) ? 1 : previous;
                                                 %>
-                                            <li>
-                                                <a class="page-link" href="adminFlight.jsp?p=<%=next%>" aria-label="Next">
-                                                    <span aria-hidden="true">Next</span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </td>
-                                </tr>
+                                                <li>
+                                                    <a class="page-link" href="adminFlight.jsp?p=<%=previous%>" aria-label="Next">
+                                                        <span aria-hidden="true">Previous</span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </li>
+                                                <% for (int i = 1; i <= totalPage; i++) {%>
+                                                <li><a href="adminFlight.jsp?p=<%=i%>"><%=i%></a></li>
+                                                    <% }
+                                                        // Next button
+                                                        int next = Integer.parseInt(p != null ? p : "0") + 1;
+                                                        next = (next > totalPage) ? totalPage : next;
+                                                    %>
+                                                <li>
+                                                    <a class="page-link" href="adminFlight.jsp?p=<%=next%>" aria-label="Next">
+                                                        <span aria-hidden="true">Next</span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
                                 </tbody>
                                 <%
                                     }

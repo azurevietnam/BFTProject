@@ -30,7 +30,7 @@
                 pageRedirect = "login.jsp";
                 session.setAttribute("loginError", "You need login first");
             } else {
-
+                
                 User u = (User) session.getAttribute("login");
                 List<BookingHistory> bookings = new BookingContext().getBookingByUsername(u.getUsername());
         %>
@@ -73,7 +73,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <%
+                            <%            
                                 for (BookingHistory b : bookings) {
                             %>
                             <tr>
@@ -90,7 +90,7 @@
                                         if (b.isBookingClose()) {
                                     %>
                                     <strong>Booking Closed</strong>
-                                    <%
+                                    <%    
                                     } else {
                                     %>
                                     <button onclick="changelink('BookingController?action=cancel&id=<%=b.getBookingID()%>')" 

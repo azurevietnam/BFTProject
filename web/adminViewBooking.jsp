@@ -4,6 +4,7 @@
     Author     : QuynhNguyen
 --%>
 
+<%@page import="com.dal.BookingContext"%>
 <%@page import="java.util.LinkedList"%>
 <%@page import="com.entities.BookingHistory"%>
 <%@page import="java.util.List"%>
@@ -18,6 +19,13 @@
         <script src="js/bootstrap.js" type="text/javascript"></script>
         <script src="js/bootstrap-confirmation.js"></script>
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
+
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery.min_2.js"></script>
+        <link href="css/datepicker3.css" rel="stylesheet" type="text/css"/>
+        <link href="css/style.css" rel="stylesheet" type="text/css"/>
+        <!--Icons-->
+        <script src="js/lumino.glyphs.js"></script>
     </head>
     <body>
         <%
@@ -29,6 +37,8 @@
 
         %>
         <!--CONTENT-->
+        <%@include file="adminHeader.jsp" %>
+        <%@include file="adminLeftSide.jsp" %>
 
         <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">	
 
@@ -44,11 +54,18 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h2>Booking</h2>
+
+                            <%  if (session.getAttribute("count") != null) {
+                                    int count = (int) session.getAttribute("count");
+                                    session.removeAttribute("count");
+                            %>
+                            <strong class="alert alert-success"><%=count%> booking status has been updated.</strong> 
+                            <%}%>
                         </div>
-                        <form action="adminFlight.jsp" method="POST" role="search">
+                        <form action="adminViewBooking.jsp" method="POST" role="search">
                             <br />
-                            <div class="form-group col-md-3 col-md-offset-5">
-                                <input type="text" name="txtSearch" required="" class="form-control" placeholder="Search by Airline Name">
+                            <div class="form-group col-md-3 col-md-offset-4">
+                                <input type="text" name="txtSearch" required="" class="form-control" placeholder="Search by Booking ID">
                             </div>
                             <div class="form-group col-md-1">
                                 <button type="submit" name="btnSearch" class="btn btn-info" >
@@ -56,14 +73,15 @@
                                 </button>
                             </div>
                         </form>
+
                         <div class="form-group col-md-1">
-                            <a href="adminAddFlight.jsp" class="btn btn-info">
-                                <span class="glyphicon glyphicon-plus-sign"></span> Add 
+                            <a href="adminViewBooking.jsp" class="btn btn-info">
+                                <span class="glyphicon glyphicon-list-alt"></span> Show all 
                             </a>
                         </div>
                         <div class="form-group col-md-1">
-                            <a href="adminFlight.jsp" class="btn btn-info">
-                                <span class="glyphicon glyphicon-list-alt"></span> Show all 
+                            <a href="BookingController?action=updateStatus" class="btn btn-warning">
+                                <span class="glyphicon glyphicon-edit"></span> Update Booking Status 
                             </a>
                         </div>
                         <div class="panel-body">
@@ -83,12 +101,40 @@
                                         <th></th>
                                     </tr>
                                 </thead>
+                                <%                                    String error = "";
+                                    if (request.getParameter("btnSearch") != null) {
+                                        String bookingID = request.getParameter("txtSearch");
+                                        BookingHistory bh = new BookingContext().getBookingByID(bookingID);
+                                        if (bh != null) {
+                                %>
+                                <tbody>
+                                    <tr>
+                                        <td><%=bh.getBookingID()%></td>
+                                        <td><%=bh.getFlightName()%></td>
+                                        <td><%=bh.getAirlineName()%></td>
+                                        <td><%=bh.getRoute()%></td>
+                                        <td><%=bh.isBookingClose() ? "Yes" : "No"%></td>
+                                        <td><%=bh.getBookingDate()%></td>
+                                        <td><%=bh.getClassType()%></td>
+                                        <td><%=bh.getPrice()%></td>
+                                        <td><%=bh.getDepartureDate()%></td>
+                                        <td><%=bh.getArrivalDate()%></td>
+                                        <td>
+                                            <a href="#" class="btn btn-xs btn-primary">
+                                                <span class="glyphicon glyphicon-edit"></span> Edit
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
 
-                                <%                                    
-                                    List<BookingHistory> lst = (LinkedList<BookingHistory>) request.getAttribute("lstBooking");
+                                <%
+                                    } else {
+                                        error = "Not found Booking by Booking ID = " + bookingID;
+                                    }
+                                } else {
+                                    List<BookingHistory> lst = (List<BookingHistory>) session.getAttribute("lstBooking");
                                     if (lst.size() > 0) {
                                         for (BookingHistory x : lst) {
-
                                 %>
                                 <tbody>
                                     <tr>
@@ -96,7 +142,7 @@
                                         <td><%=x.getFlightName()%></td>
                                         <td><%=x.getAirlineName()%></td>
                                         <td><%=x.getRoute()%></td>
-                                        <td><%=x.isBookingClose()%></td>
+                                        <td><%=x.isBookingClose() ? "Yes" : "No"%></td>
                                         <td><%=x.getBookingDate()%></td>
                                         <td><%=x.getClassType()%></td>
                                         <td><%=x.getPrice()%></td>
@@ -106,26 +152,26 @@
                                             <a href="#" class="btn btn-xs btn-primary">
                                                 <span class="glyphicon glyphicon-edit"></span> Edit
                                             </a>
-                                            <a href="#" class="btn btn-xs btn-warning">
-                                                <span class="glyphicon glyphicon-remove"></span> Delete
-                                            </a> 
-
                                         </td>
                                     </tr>
+                                </tbody>
 
-                                    <%  }
-                                        }%>
-
-
-
-
+                                <%  }
+                                        } else {
+                                            error = "Not found Booking";
+                                        }
+                                    }%>
                             </table>
+                            <%
+                                if (!error.isEmpty()) {
+                            %>
+                            <strong class="alert alert-danger"><%=error%></strong>
+                            <%}%>
 
                         </div>
                     </div>
                 </div>
             </div><!--/.row-->	
-
 
         </div><!--/.main-->
 

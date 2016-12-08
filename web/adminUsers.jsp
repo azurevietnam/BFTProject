@@ -24,6 +24,8 @@
         <script src="js/lumino.glyphs.js"></script>
     </head>
     <body>
+
+
         <jsp:useBean id="userBean" class="com.dal.UserContext" scope="session" />
         <%
             pageContext.setAttribute("b", userBean.getAllUser());
@@ -32,7 +34,12 @@
         <%@include file="adminLeftSide.jsp" %>
         <!--Content-->
 
+        <%    String pageRedirect = "";
 
+            if (session.getAttribute("login") == null) {
+                pageRedirect = "login.jsp";
+
+        %>
 
         <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
             <div class="row">
@@ -179,6 +186,12 @@
 
 
         </div><!--/.main-->
+        <%
+            }
+            if (!pageRedirect.isEmpty()) {
+                response.sendRedirect(pageRedirect);
+            }
+        %>
 
 
         <script type="text/javascript">

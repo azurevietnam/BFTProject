@@ -9,11 +9,14 @@ import com.dal.UserContext;
 import com.entities.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import mail.Mail;
 
 /**
  *
@@ -61,6 +64,27 @@ public class LoginController extends HttpServlet {
                 } else if (action.equals("logout")) {
                     session.removeAttribute("login");
                     pageRedirect = "index.jsp";
+                } else if (action.equals("forgot")){
+                   String userEmail=request.getParameter("email");
+                   try {
+                      Mail mail=new Mail();
+                      UserContext uc=new UserContext();
+                      User u=uc.getUserByEmail(userEmail);
+                      if (u!=null){
+                         String newPassword=uc.getPrimaryKey();
+                         u.setPassword(newPassword);
+                         uc.changePassword(u.getUsername(), newPassword);
+                         
+                         mail.setName(u.getFirstName());
+                         mail.setM_to(userEmail);
+                         mail.setNewPassword(newPassword);
+                         mail.setM_text();
+                         mail.send();
+                      }
+                      pageRedirect="login.jsp";
+                   } catch (Exception ex) {
+                      pageRedirect="forgotPassword.jsp";
+                   }
                 }
             } else {
                 pageRedirect = "index.jsp";

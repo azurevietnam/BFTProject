@@ -55,7 +55,7 @@ public class checkRegister extends HttpServlet {
             session.setAttribute("login", user);
             pageRedirect = "index.jsp";
          } catch (Exception ex) {
-            session.setAttribute("registerError", "Username is already exists");
+            session.setAttribute("registerError", "Username or Email is already exists");
             session.setAttribute("preInfo", user);
             pageRedirect = "register.jsp";
          }

@@ -38,7 +38,7 @@ username nvarchar(30) primary key,
 password nvarchar(30) ,
 first_name nvarchar(30)  ,
 last_name nvarchar(30)   ,
-email nvarchar(50) ,
+email nvarchar(50) unique,
 facebook_id nvarchar(20),
 facebook_link nvarchar(80),
 is_admin bit

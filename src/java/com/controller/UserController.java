@@ -9,8 +9,6 @@ import com.dal.UserContext;
 import com.entities.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -83,7 +81,7 @@ public class UserController extends HttpServlet {
                     isAdmin = "0";
                 }
                 User user = new User(usr, password, firstName, lastName, email,
-                        facebookID, facebookLink, Integer.parseInt(isAdmin) == 1 ? true : false);
+                        facebookID, facebookLink, Integer.parseInt(isAdmin) == 1 );
                 uc.addUser(user);
 //                redirectPage = "adminUser.jsp";
                 RequestDispatcher rd = request.getRequestDispatcher("adminUsers.jsp");

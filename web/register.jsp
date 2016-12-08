@@ -13,11 +13,12 @@
       <title>Register</title>
       <link href="css/bootstrap.min.css" rel="stylesheet"/>
       <link href="css/bootstrapValidator.min.css" rel="stylesheet"/>
-      
-      
+
+
       <script src="js/jquery.min_2.js"></script>
       <script src="js/bootstrap.min.js"></script>
-      <script src="js/bootstrapValidator.min.js"></script>      
+      <script src="js/bootstrapValidator.min.js"></script>   
+      <script src="js/reCaptcha2.min.js" type="text/javascript"></script>
       <script src="js/register.js"></script>
    </head>
    <body>
@@ -34,7 +35,7 @@
             %>
             <div class="alert alert-danger alert-dismissable fade in text-center"><%=msg%></div>
             <%}%>
-            <form action="checkRegister" class="form-horizontal" id="register_form" method="POST">
+            <form action="checkRegister" class="form-horizontal" id="register_form" method="POST" >
                <!--first name-->
                <div class="form-group">
                   <label class="control-label col-md-4">First name</label>
@@ -96,6 +97,12 @@
                      </div>
                   </div>
                </div>
+               <div class="form-group">
+                  <label class="col-xs-4 control-label" id="captchaOperation"></label>
+                  <div class="col-xs-4">
+                     <input type="text" class="form-control" name="captcha" />
+                  </div>
+               </div>
                <!--Register-->
                <div class="form-group">
                   <label class="col-md-4 control-label"></label>
@@ -105,6 +112,7 @@
                      </button>
                   </div>
                </div>
+
             </form>
          </fieldset>
       </div>

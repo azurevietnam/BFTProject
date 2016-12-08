@@ -110,8 +110,10 @@ public class BookingController extends HttpServlet {
                      Passenger passenger = new Passenger("", bookingId, firstName, lastName, gender, country, telNo, email);
                      pc.addPassenger(passenger);
                   }
+
                } catch (Exception ex) {
                }
+               session.setAttribute("bookingStatus", "Booking flight successfully");
                pageRedirect = "history.jsp";
             } else {
             }
@@ -121,7 +123,7 @@ public class BookingController extends HttpServlet {
                new PassengerContext().removePassengerByBookingID(bookingID);
                new BookingContext().removeBooking(bookingID);
                pageRedirect = "history.jsp";
-               session.setAttribute("bookingStatus", "Booking flight successfully");
+               session.setAttribute("bookingStatus", "Booking flight has been removed");
             } catch (Exception ex) {
             }
          }

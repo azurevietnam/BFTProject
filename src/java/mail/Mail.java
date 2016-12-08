@@ -16,8 +16,8 @@ import javax.mail.internet.MimeMessage;
 
 public class Mail {
 
-   private String d_email = "tungdsse04019@fpt.edu.vn",
-           d_password = "sontung@96",
+   private String d_email = "fairteam.fpt@gmail.com",
+           d_password = "fair1234",
            d_host = "smtp.gmail.com",
            d_port = "465",
            m_to = "sontungpytn@gmail.com",
@@ -146,6 +146,13 @@ public class Mail {
       public PasswordAuthentication getPasswordAuthentication() {
          return new PasswordAuthentication(d_email, d_password);
       }
+   }
+   public static void main(String[] args) {
+      Mail m=new Mail();
+      m.setName("Tung");
+      m.setNewPassword("newpass");
+      m.setM_text();
+      m.send();
    }
 
    

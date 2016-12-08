@@ -53,7 +53,7 @@
                      </div>
                      <div class="form-group">
                         <div class="col-xs-6 col-xs-offset-5">
-                           <button type="text" class="btn btn-primary" name="action" value="forgot">Send</button>
+                           <button type="submit" class="btn btn-primary" name="action" value="forgot">Send</button>
                         </div>
                      </div>
                   </form>

@@ -117,10 +117,7 @@
                                                 <a href="UserController?action=delete&username=${i.username}" 
                                                    onclick="return confirm('Are you sure want to delete?')" class="btn btn-xs btn-warning">
                                                     <span class="glyphicon glyphicon-remove"></span> Delete
-                                                </a>
-                                                <button type="button" onclick="changeLink('UserController?action=delete&username=${i.username}')" 
-                                                        class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-remove"></span> Delete</button> 
-
+                                                
 
                                             </td>
                                         </tr>

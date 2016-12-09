@@ -192,4 +192,36 @@ public class UserContext extends DBContext {
         }
         return u;
     }
+
+    /**
+     * Register with Facebook
+     *
+     * @param username
+     * @param password
+     * @param fname
+     * @param lname
+     * @param email
+     * @param facebookID
+     * @param facebookLink
+     * @param isAdmin
+     * @return
+     */
+    public boolean registerFB(String username, String password, String fname, String lname, String email, String facebookID, String facebookLink, int isAdmin) {
+        try {
+            String sql = "INSERT into USERS values(?,?,?,?,?,?,?,?)";
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setString(2, password);
+            statement.setString(3, fname);
+            statement.setString(4, lname);
+            statement.setString(5, email);
+            statement.setString(6, facebookID);
+            statement.setString(7, facebookLink);
+            statement.setInt(8, isAdmin);
+            statement.executeUpdate();
+        } catch (Exception ex) {
+            return false;
+        }
+        return true;
+    }
 }
